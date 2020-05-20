@@ -31,17 +31,9 @@ void blinkLED() //blinks the led. Ports are hardcoded.
 
 void USART_TransmitChar(unsigned char data)
 {
-	//Blink when its transmitting
-	
-	//while(isBitSet(PINB, PB6)); //ensures that the program stalls itself if CTS is false
-	
 	while (isBitClear(UCSR0A, UDRE0)) //If UDRE0 0 bit is set to 1, the transmitter is ready to transmit again.
-	{
-		
-	}
+	{}
 	UDR0 = data;
-	//blinkLED();
-	
 }
 
 void UART_putString(char* stringA)
@@ -51,7 +43,6 @@ void UART_putString(char* stringA)
 		USART_TransmitChar(*stringA);
 		stringA++;
 	}
-	
 }
 
 void UART_init(uint16_t ubrr)
