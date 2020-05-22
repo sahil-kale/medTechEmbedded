@@ -52,6 +52,7 @@ void UART_putString(char* stringA)
 		USART_TransmitChar(*stringA);
 		stringA++;
 	}
+	USART_TransmitChar('\n');
 }
 
 

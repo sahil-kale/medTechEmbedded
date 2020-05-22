@@ -43,6 +43,20 @@ void UART_putString(char* stringA)
 		USART_TransmitChar(*stringA);
 		stringA++;
 	}
+	USART_TransmitChar('\n');
+
+}
+
+void UART_getChar(void)
+{
+	// wait for data
+	while(isBitClear(UCSR0A, RXC0)))
+	{
+		
+	}
+
+	// return data
+	return UDR0;
 }
 
 void UART_init(uint16_t ubrr)
@@ -70,6 +84,9 @@ int main(void)
     {
 		char tempString[] = "Atharva likes POOP";
 		UART_putString(tempString);
+		
+		
+		
     }
 }
 
