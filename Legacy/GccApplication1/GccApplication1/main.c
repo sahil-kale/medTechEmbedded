@@ -59,6 +59,42 @@ void UART_getChar(void)
 	return UDR0;
 }
 
+void UART_getLine(char* buf, uint8_t n)
+{
+	uint8_t bufIdx = 0;
+	char c;
+
+	// while received character is not carriage return
+	// and end of buffer has not been reached
+	do //The loop just increments itself
+	{
+		// receive character
+		c = UART_getChar();
+
+		// store character in buffer
+		buf[bufIdx++] = c;
+	}
+	while((bufIdx < n) && (c != '\r'));
+
+	// ensure buffer is null terminated
+	buf[bufIdx] = 0;
+}
+
+void UARTping()
+{
+	uint8_t bufSize = 20;
+	char buf[bufSize]; //create a temporary buffer.
+
+	// get line from UART
+	UART_getLine(buf, bufSize);
+
+	// echo input
+	UART_putString("You entered: ");
+	UART_putString(buf);
+	USART_TransmitChar('\n');
+	
+}
+
 void UART_init(uint16_t ubrr)
 {
 	// set baudrate in UBRR
