@@ -19,9 +19,10 @@
 #define isBitClear(byte, bit) !(byte & (1 << bit))
 #define toggleBit(byte, bit) (byte ^= (1 << bit))
 
-int ADCsingleRead(uint8_t adcPort) //adcPort argument takes an integer from 0-8 that will specify the ADC to use. Easier than hard coding the port so that in the future, we can call the function :)
+int ADCsingleRead(uint8_t adcPort) //adcPort argument takes an integer from 0-5 that will specify the ADC to use. Easier than hard coding the port so that in the future, we can call the function :)
 {
 	int returnValue;
+	//Reset Registers
 	ADMUX = 0b00000000;
 	ADCSRA = 0b00000000;
 	ADCSRB = 0b00000000;
@@ -29,11 +30,12 @@ int ADCsingleRead(uint8_t adcPort) //adcPort argument takes an integer from 0-8 
 	ADMUX = adcPort;
 	ADMUX |= (1 << REFS0) | (0 << ADLAR); //AVcc internal reference, left justify ADLAR. Plan is to output ADCH for now since this is a test
 	ADCSRA |= (1 << ADEN) | (1 << ADPS1) | (1 << ADPS0);
-	ADCSRA |= (1 << ADSC);
+	ADCSRA |= (1 << ADSC); //Fire the cannon... I mean ADC
 	
 	while(isBitSet(ADCSRA, ADSC)) //stalls the code while the ADC is initalizing/running
 	{}
 		
+	//the fake values were put in to avoid issues with maipulating ADCH and ADCL
 	unsigned int fakeADCL = ADCL;
 	unsigned int fakeADCH = ADCH;	
 	returnValue = (fakeADCH << 8) + fakeADCL;
@@ -61,8 +63,8 @@ void UART_putString(char* stringA)
 void UART_init(uint16_t ubrr) //takes in baud rate number
 {
 	// set baudrate in UBRR
-	UBRR0L = (uint8_t)(ubrr & 0xFF); //gets low bits
-	UBRR0H = (uint8_t)(ubrr >> 8); //gets high bits
+	UBRR0L = (uint8_t)(ubrr & 0xFF); //gets low bits for baudrate
+	UBRR0H = (uint8_t)(ubrr >> 8); //gets high bits for baudrate
 
 	UCSR0C = (1 << USBS0)|(3 << UCSZ00); //Set frame format: 8data, 2stop bit
 
@@ -96,13 +98,13 @@ int main(void)
     /* Replace with your application code */
     while (1) 
     {
-		int tempReading  = ADCsingleRead(5);
+		int tempReading  = ADCsingleRead(5); //ADC Converter gang
 		char tempString[] = "TempC";
-		char tempBuffer[11];
-		itoa(tempReading, tempBuffer, 2);
+		char tempBuffer[11]; //Create a char buffer to write the reading too. Calculated by # of chars + 1 for null bit
+		itoa(tempReading, tempBuffer, 2); //Converts the temp reading into a string that is stored in tempBuffer
 		UART_putString(tempBuffer);
 		UART_putString(tempString);
-		USART_TransmitChar('\n');	
+		USART_TransmitChar('\n'); //new line
     }
 	return 0;
 }
