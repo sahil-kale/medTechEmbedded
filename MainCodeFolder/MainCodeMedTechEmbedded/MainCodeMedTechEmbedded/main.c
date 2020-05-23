@@ -3,7 +3,7 @@
  *
  * Created: 5/19/2020 23:10:13
  * Author : sahil
- */ 
+ */
 
 #ifndef F_CPU
 #define F_CPU 1000000UL
@@ -13,7 +13,7 @@
 #include <util/delay.h>
 #include <stdlib.h>
 
-#define baudRate10416 5 //Fosc/(16*baudRate)
+#define baudRate10416 25 //Fosc/(16*baudRate)
 
 #define isBitSet(byte, bit) (byte & (1 << bit))
 #define isBitClear(byte, bit) !(byte & (1 << bit))
@@ -31,9 +31,12 @@ int ADCsingleRead(uint8_t adcPort) //adcPort argument takes an integer from 0-8 
 	ADCSRA |= (1 << ADEN) | (1 << ADPS1) | (1 << ADPS0);
 	ADCSRA |= (1 << ADSC);
 	
-	while(isBitSet(ADCSRA, ADSC))
+	while(isBitSet(ADCSRA, ADSC)) //stalls the code while the ADC is initalizing/running
 	{}
-	returnValue = (ADCH << 8) + ADCL;
+		
+	unsigned int fakeADCL = ADCL;
+	unsigned int fakeADCH = ADCH;	
+	returnValue = (fakeADCH << 8) + fakeADCL;
 	return returnValue;
 }
 
@@ -52,7 +55,6 @@ void UART_putString(char* stringA)
 		USART_TransmitChar(*stringA);
 		stringA++;
 	}
-	USART_TransmitChar('\n');
 }
 
 
@@ -61,7 +63,11 @@ void UART_init(uint16_t ubrr) //takes in baud rate number
 	// set baudrate in UBRR
 	UBRR0L = (uint8_t)(ubrr & 0xFF); //gets low bits
 	UBRR0H = (uint8_t)(ubrr >> 8); //gets high bits
-	UCSR0C = 0x06;  //Refer to data sheet for things
+	//UCSR0C = 0x06;  //Refer to data sheet for things 19.10.4
+
+
+	/* Set frame format: 8data, 2stop bit */
+	UCSR0C = (1<<USBS0)|(3<<UCSZ00);
 
 	// enable the transmitter and receiver
 	UCSR0B |= (1 << RXEN0) | (1 << TXEN0);
@@ -80,8 +86,7 @@ void init()
 	unsigned int ubrr = baudRate10416;
 	UART_init(ubrr);
 	
-	DDRB = 0b11111100;
-	DDRB |= 0b00000011;	
+	DDRB |= 0b00000001;	
 	blinkLED();
 	
 }
@@ -95,10 +100,11 @@ int main(void)
     while (1) 
     {
 		int tempReading  = ADCsingleRead(5);
-		char tempString[] = "TEMPC";
+		char tempString[] = "TempC";
 		char tempBuffer[11];
 		itoa(tempReading, tempBuffer, 2);
 		UART_putString(tempBuffer);
+		USART_TransmitChar('\n');
 		UART_putString(tempString);	
     }
 	return 0;

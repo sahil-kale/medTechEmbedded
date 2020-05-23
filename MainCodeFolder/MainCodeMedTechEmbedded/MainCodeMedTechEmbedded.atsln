@@ -5,6 +5,10 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "MainCodeMedTechEmbedded", "MainCodeMedTechEmbedded\MainCodeMedTechEmbedded.cproj", "{DCE6C7E3-EE26-4D79-826B-08594B9AD897}"
 EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "GccApplication1", "..\..\Legacy\GccApplication1\GccApplication1\GccApplication1.cproj", "{1ADF1116-2EB6-4D75-84ED-AC360621B076}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "MedTechsProjectMainCode", "..\..\Legacy\MedTechsProjectMainCode\MedTechsProjectMainCode\MedTechsProjectMainCode.cproj", "{C0904694-AB1F-4464-812B-C9E9D542EB5C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|AVR = Debug|AVR
@@ -15,6 +19,14 @@ Global
 		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Debug|AVR.Build.0 = Debug|AVR
 		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Release|AVR.ActiveCfg = Release|AVR
 		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Release|AVR.Build.0 = Release|AVR
+		{1ADF1116-2EB6-4D75-84ED-AC360621B076}.Debug|AVR.ActiveCfg = Debug|AVR
+		{1ADF1116-2EB6-4D75-84ED-AC360621B076}.Debug|AVR.Build.0 = Debug|AVR
+		{1ADF1116-2EB6-4D75-84ED-AC360621B076}.Release|AVR.ActiveCfg = Release|AVR
+		{1ADF1116-2EB6-4D75-84ED-AC360621B076}.Release|AVR.Build.0 = Release|AVR
+		{C0904694-AB1F-4464-812B-C9E9D542EB5C}.Debug|AVR.ActiveCfg = Debug|AVR
+		{C0904694-AB1F-4464-812B-C9E9D542EB5C}.Debug|AVR.Build.0 = Debug|AVR
+		{C0904694-AB1F-4464-812B-C9E9D542EB5C}.Release|AVR.ActiveCfg = Release|AVR
+		{C0904694-AB1F-4464-812B-C9E9D542EB5C}.Release|AVR.Build.0 = Release|AVR
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

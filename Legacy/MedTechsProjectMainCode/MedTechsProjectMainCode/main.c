@@ -195,7 +195,7 @@ int main(void)
 	ADCSRB = 0b00000000;
 	
 	PORTD = 0b11111111;
-	PORTB = 0b00000011;
+	PORTB = 0b11111111;
 //	_delay_ms(500);
 	
     while (1) 

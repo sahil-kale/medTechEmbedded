@@ -3,29 +3,29 @@ MedTechsProjectMainCode.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  00000132  2**0
+  0 .data         00000000  00800100  00800100  00000130  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000000de  00000000  00000000  00000054  2**1
+  1 .text         000000dc  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000132  2**0
+  2 .comment      00000030  00000000  00000000  00000130  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000164  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000160  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000030  00000000  00000000  000001a0  2**0
+  4 .debug_aranges 00000030  00000000  00000000  0000019c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   000007ae  00000000  00000000  000001d0  2**0
+  5 .debug_info   000007ae  00000000  00000000  000001cc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 000006d8  00000000  00000000  0000097e  2**0
+  6 .debug_abbrev 000006d8  00000000  00000000  0000097a  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000002f1  00000000  00000000  00001056  2**0
+  7 .debug_line   000002f1  00000000  00000000  00001052  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000044  00000000  00000000  00001348  2**2
+  8 .debug_frame  00000044  00000000  00000000  00001344  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    000003f3  00000000  00000000  0000138c  2**0
+  9 .debug_str    000003f3  00000000  00000000  00001388  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    000000bd  00000000  00000000  0000177f  2**0
+ 10 .debug_loc    000000bd  00000000  00000000  0000177b  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000020  00000000  00000000  0000183c  2**0
+ 11 .debug_ranges 00000020  00000000  00000000  00001838  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -66,7 +66,7 @@ Disassembly of section .text:
   70:	de bf       	out	0x3e, r29	; 62
   72:	cd bf       	out	0x3d, r28	; 61
   74:	0e 94 55 00 	call	0xaa	; 0xaa <main>
-  78:	0c 94 6d 00 	jmp	0xda	; 0xda <_exit>
+  78:	0c 94 6c 00 	jmp	0xd8	; 0xd8 <_exit>
 
 0000007c <__bad_interrupt>:
   7c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -133,39 +133,38 @@ int main(void)
 	
 	PORTD = 0b11111111;
   ba:	8b b9       	out	0x0b, r24	; 11
-	PORTB = 0b00000011;
-  bc:	83 e0       	ldi	r24, 0x03	; 3
-  be:	85 b9       	out	0x05, r24	; 5
+	PORTB = 0b11111111;
+  bc:	85 b9       	out	0x05, r24	; 5
 //	_delay_ms(500);
 	
     while (1) 
     {
 		int notUsed = ADCsingleRead(5);
 		PORTB = ADCL; 
-  c0:	08 e7       	ldi	r16, 0x78	; 120
-  c2:	10 e0       	ldi	r17, 0x00	; 0
+  be:	08 e7       	ldi	r16, 0x78	; 120
+  c0:	10 e0       	ldi	r17, 0x00	; 0
 		PORTD = ADCH;
-  c4:	c9 e7       	ldi	r28, 0x79	; 121
-  c6:	d0 e0       	ldi	r29, 0x00	; 0
-	PORTB = 0b00000011;
+  c2:	c9 e7       	ldi	r28, 0x79	; 121
+  c4:	d0 e0       	ldi	r29, 0x00	; 0
+	PORTB = 0b11111111;
 //	_delay_ms(500);
 	
     while (1) 
     {
 		int notUsed = ADCsingleRead(5);
-  c8:	85 e0       	ldi	r24, 0x05	; 5
-  ca:	0e 94 40 00 	call	0x80	; 0x80 <ADCsingleRead>
+  c6:	85 e0       	ldi	r24, 0x05	; 5
+  c8:	0e 94 40 00 	call	0x80	; 0x80 <ADCsingleRead>
 		PORTB = ADCL; 
-  ce:	f8 01       	movw	r30, r16
-  d0:	80 81       	ld	r24, Z
-  d2:	85 b9       	out	0x05, r24	; 5
+  cc:	f8 01       	movw	r30, r16
+  ce:	80 81       	ld	r24, Z
+  d0:	85 b9       	out	0x05, r24	; 5
 		PORTD = ADCH;
-  d4:	88 81       	ld	r24, Y
-  d6:	8b b9       	out	0x0b, r24	; 11
-  d8:	f7 cf       	rjmp	.-18     	; 0xc8 <main+0x1e>
+  d2:	88 81       	ld	r24, Y
+  d4:	8b b9       	out	0x0b, r24	; 11
+  d6:	f7 cf       	rjmp	.-18     	; 0xc6 <main+0x1c>
 
-000000da <_exit>:
-  da:	f8 94       	cli
+000000d8 <_exit>:
+  d8:	f8 94       	cli
 
-000000dc <__stop_program>:
-  dc:	ff cf       	rjmp	.-2      	; 0xdc <__stop_program>
+000000da <__stop_program>:
+  da:	ff cf       	rjmp	.-2      	; 0xda <__stop_program>
