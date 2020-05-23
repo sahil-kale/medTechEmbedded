@@ -13,7 +13,7 @@
 #include <util/delay.h>
 #include <stdlib.h>
 
-#define baudRate10416 25 //Fosc/(16*baudRate)
+#define baudRate 25 //Fosc/(16*baudRate), 2400
 
 #define isBitSet(byte, bit) (byte & (1 << bit))
 #define isBitClear(byte, bit) !(byte & (1 << bit))
@@ -63,14 +63,12 @@ void UART_init(uint16_t ubrr) //takes in baud rate number
 	// set baudrate in UBRR
 	UBRR0L = (uint8_t)(ubrr & 0xFF); //gets low bits
 	UBRR0H = (uint8_t)(ubrr >> 8); //gets high bits
-	//UCSR0C = 0x06;  //Refer to data sheet for things 19.10.4
 
-
-	/* Set frame format: 8data, 2stop bit */
-	UCSR0C = (1<<USBS0)|(3<<UCSZ00);
+	UCSR0C = (1 << USBS0)|(3 << UCSZ00); //Set frame format: 8data, 2stop bit
 
 	// enable the transmitter and receiver
 	UCSR0B |= (1 << RXEN0) | (1 << TXEN0);
+	_delay_ms(5000);
 }
 
 void blinkLED() //blinks the led. Ports are hardcoded.
@@ -83,9 +81,8 @@ void blinkLED() //blinks the led. Ports are hardcoded.
 
 void init()
 {
-	unsigned int ubrr = baudRate10416;
+	unsigned int ubrr = baudRate;
 	UART_init(ubrr);
-	
 	DDRB |= 0b00000001;	
 	blinkLED();
 	
@@ -104,8 +101,8 @@ int main(void)
 		char tempBuffer[11];
 		itoa(tempReading, tempBuffer, 2);
 		UART_putString(tempBuffer);
-		USART_TransmitChar('\n');
-		UART_putString(tempString);	
+		UART_putString(tempString);
+		USART_TransmitChar('\n');	
     }
 	return 0;
 }
