@@ -1,6 +1,6 @@
 /*
  * MainCodeMedTechEmbedded.c
- *
+ * ALL RIGHTS RESERVED by Sahil Kale
  * Created: 5/19/2020 23:10:13
  * Author : sahil
  */
@@ -90,6 +90,16 @@ void init()
 	
 }
 
+void transmitADCvalues(uint8_t ADCPort, char* stringToTransmit) //does the ADC conversion, then does the conversion and sends the raw ADC value and then the stringToTransmit.
+{
+	int reading = ADCsingleRead(ADCPort);
+	char buffer[11];
+	itoa(reading, buffer, 2);
+	UART_putString(buffer);
+	UART_putString(stringToTransmit);
+	
+}
+
 int main(void)
 {
 	
@@ -98,12 +108,18 @@ int main(void)
     /* Replace with your application code */
     while (1) 
     {
+		/*
 		int tempReading  = ADCsingleRead(5); //ADC Converter gang
 		char tempString[] = "TempC";
 		char tempBuffer[11]; //Create a char buffer to write the reading too. Calculated by # of chars + 1 for null bit
 		itoa(tempReading, tempBuffer, 2); //Converts the temp reading into a string that is stored in tempBuffer
 		UART_putString(tempBuffer);
 		UART_putString(tempString);
+		*/
+		char temperatureString[] = "TempC";
+		transmitADCvalues(5, temperatureString);
+		
+		
 		USART_TransmitChar('\n'); //new line
     }
 	return 0;
