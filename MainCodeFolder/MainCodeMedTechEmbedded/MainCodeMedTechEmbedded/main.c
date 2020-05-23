@@ -1,6 +1,6 @@
 /*
  * MainCodeMedTechEmbedded.c
- *
+ * ALL RIGHTS RESERVED by Sahil Kale
  * Created: 5/19/2020 23:10:13
  * Author : sahil
  */
