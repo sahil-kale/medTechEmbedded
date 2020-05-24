@@ -1,9 +1,12 @@
 /*
- * MainCodeMedTechEmbedded.c
- * ALL RIGHTS RESERVED by Sahil Kale
- * Created: 5/19/2020 23:10:13
- * Author : sahil
- */
+* Copyright Sahil Kale 2020
+* Github: @dakaleyt | sahil.kale1@gmail.com
+* All rights reserved
+*
+* Purpose: MedTechs main code
+* Revision: 2.0
+* Microcontroller: ATMega328/p
+ */ 
 
 #ifndef F_CPU
 #define F_CPU 1000000UL
@@ -13,7 +16,7 @@
 #include <util/delay.h>
 #include <stdlib.h>
 
-#define baudRate 25 //Fosc/(16*baudRate), 2400
+#define baudRate 25 //Fosc/(16*baudRate), Baud rate of 2400
 
 #define isBitSet(byte, bit) (byte & (1 << bit))
 #define isBitClear(byte, bit) !(byte & (1 << bit))
@@ -29,13 +32,13 @@ int ADCsingleRead(uint8_t adcPort) //adcPort argument takes an integer from 0-5 
 	
 	ADMUX = adcPort;
 	ADMUX |= (1 << REFS0) | (0 << ADLAR); //AVcc internal reference, left justify ADLAR. Plan is to output ADCH for now since this is a test
-	ADCSRA |= (1 << ADEN) | (1 << ADPS1) | (1 << ADPS0);
+	ADCSRA |= (1 << ADEN) | (1 << ADPS1) | (1 << ADPS0); //Enable the ADC, divide input clock by 8 for the ADC.
 	ADCSRA |= (1 << ADSC); //Fire the cannon... I mean ADC
 	
 	while(isBitSet(ADCSRA, ADSC)) //stalls the code while the ADC is initalizing/running
 	{}
 		
-	//the fake values were put in to avoid issues with maipulating ADCH and ADCL
+	//the fake values were put in to avoid issues with manipulating ADCH and ADCL
 	unsigned int fakeADCL = ADCL;
 	unsigned int fakeADCH = ADCH;	
 	returnValue = (fakeADCH << 8) + fakeADCL;
@@ -108,14 +111,7 @@ int main(void)
     /* Replace with your application code */
     while (1) 
     {
-		/*
-		int tempReading  = ADCsingleRead(5); //ADC Converter gang
-		char tempString[] = "TempC";
-		char tempBuffer[11]; //Create a char buffer to write the reading too. Calculated by # of chars + 1 for null bit
-		itoa(tempReading, tempBuffer, 2); //Converts the temp reading into a string that is stored in tempBuffer
-		UART_putString(tempBuffer);
-		UART_putString(tempString);
-		*/
+		
 		char temperatureString[] = "TempC";
 		transmitADCvalues(5, temperatureString);
 		
@@ -125,3 +121,13 @@ int main(void)
 	return 0;
 }
 
+//Old Code
+
+/*
+		int tempReading  = ADCsingleRead(5); //ADC Converter gang
+		char tempString[] = "TempC";
+		char tempBuffer[11]; //Create a char buffer to write the reading too. Calculated by # of chars + 1 for null bit
+		itoa(tempReading, tempBuffer, 2); //Converts the temp reading into a string that is stored in tempBuffer
+		UART_putString(tempBuffer);
+		UART_putString(tempString);
+*/
