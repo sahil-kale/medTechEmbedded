@@ -1,2 +1,2 @@
 # medTechEmbedded
-All rights reserved by Sahil Kale
+All rights for ALL CODE WRITTEN HERE reserved by Sahil Kale
