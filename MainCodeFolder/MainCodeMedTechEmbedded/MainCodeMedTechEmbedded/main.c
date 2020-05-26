@@ -16,7 +16,7 @@
 #include <util/delay.h>
 #include <stdlib.h>
 
-#define baudRate 25 //Fosc/(16*baudRate), Baud rate of 2400
+#define baudRate 12 //Fosc/(16*baudRate), Baud rate of 4800
 
 #define isBitSet(byte, bit) (byte & (1 << bit))
 #define isBitClear(byte, bit) !(byte & (1 << bit))
@@ -46,7 +46,7 @@ int ADCsingleRead(uint8_t adcPort) //adcPort argument takes an integer from 0-5 
 }
 
 
-void USART_TransmitChar(unsigned char data)
+void UART_putChar(unsigned char data)
 {
 	while (isBitClear(UCSR0A, UDRE0)) //If UDRE0 0 bit is set to 1, the transmitter is ready to transmit again.
 	{}
@@ -57,9 +57,20 @@ void UART_putString(char* stringA)
 {
 	while(*stringA != 0x00)
 	{
-		USART_TransmitChar(*stringA);
+		UART_putChar(*stringA);
 		stringA++;
 	}
+}
+
+unsigned char UART_getChar()
+{
+	/* Wait for data to be received */
+	while (!(UCSR0A & (1<<RXC0)))
+	{
+		//blinkLED();
+	}
+	/* Get and return received data from buffer */
+	return UDR0;
 }
 
 
@@ -74,10 +85,14 @@ void UART_init(uint16_t ubrr) //takes in baud rate number
 	// enable the transmitter and receiver
 	UCSR0B |= (1 << RXEN0) | (1 << TXEN0);
 	_delay_ms(5000);
+	
+	char initString[] = "UART Initialized";
+	UART_putString(initString);
 }
 
 void blinkLED() //blinks the led. Ports are hardcoded.
 {
+	DDRB |= 0b00000001;	
 	toggleBit(PORTB, PB0);
 	_delay_ms(500);
 	toggleBit(PORTB, PB0);
@@ -88,7 +103,8 @@ void init()
 {
 	unsigned int ubrr = baudRate;
 	UART_init(ubrr);
-	DDRB |= 0b00000001;	
+	
+	
 	blinkLED();
 	
 }
@@ -106,17 +122,30 @@ void transmitADCvalues(uint8_t ADCPort, char* stringToTransmit) //does the ADC c
 int main(void)
 {
 	
-	init();
+	init();	
 	
     /* Replace with your application code */
     while (1) 
     {
+
 		
-		char temperatureString[] = "TempC";
-		transmitADCvalues(5, temperatureString);
+		char receivedChar = UART_getChar();
 		
+		switch(receivedChar)
+		{
+			case 'B': //blink code
+				blinkLED();
+				break;
+				
+			case 'T': //Temperature code				
+
+				transmitADCvalues(5,"TempC");
+				break;
+			
+		}
 		
-		USART_TransmitChar('\n'); //new line
+		UART_putChar('\n');
+		
     }
 	return 0;
 }
