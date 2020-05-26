@@ -46,7 +46,7 @@ int ADCsingleRead(uint8_t adcPort) //adcPort argument takes an integer from 0-5 
 }
 
 
-void USART_putChar(unsigned char data)
+void UART_putChar(unsigned char data)
 {
 	while (isBitClear(UCSR0A, UDRE0)) //If UDRE0 0 bit is set to 1, the transmitter is ready to transmit again.
 	{}
@@ -57,7 +57,7 @@ void UART_putString(char* stringA)
 {
 	while(*stringA != 0x00)
 	{
-		USART_putChar(*stringA);
+		UART_putChar(*stringA);
 		stringA++;
 	}
 }
@@ -73,26 +73,6 @@ unsigned char UART_getChar()
 	return UDR0;
 }
 
-void UART_getLine(char* buf, uint8_t n)
-{
-	uint8_t bufIdx = 0;
-	char c;
-
-	// while received character is not carriage return
-	// and end of buffer has not been reached
-	do
-	{
-		// receive character
-		c = UART_getChar();
-
-		// store character in buffer
-		buf[bufIdx++] = c;
-	}
-	while((bufIdx < n) && (c != '\r'));
-
-	// ensure buffer is null terminated
-	buf[bufIdx] = 0;
-}
 
 void UART_init(uint16_t ubrr) //takes in baud rate number
 {
@@ -105,10 +85,14 @@ void UART_init(uint16_t ubrr) //takes in baud rate number
 	// enable the transmitter and receiver
 	UCSR0B |= (1 << RXEN0) | (1 << TXEN0);
 	_delay_ms(5000);
+	
+	char initString[] = "UART Initialized";
+	UART_putString(initString);
 }
 
 void blinkLED() //blinks the led. Ports are hardcoded.
 {
+	DDRB |= 0b00000001;	
 	toggleBit(PORTB, PB0);
 	_delay_ms(500);
 	toggleBit(PORTB, PB0);
@@ -121,7 +105,6 @@ void init()
 	UART_init(ubrr);
 	
 	
-	DDRB |= 0b00000001;	
 	blinkLED();
 	
 }
@@ -139,21 +122,14 @@ void transmitADCvalues(uint8_t ADCPort, char* stringToTransmit) //does the ADC c
 int main(void)
 {
 	
-	init();
-	uint8_t receiveBufferSize = 20;
-	char receiveBuffer[receiveBufferSize];
+	init();	
 	
-	char initString[] = "Started";
-	UART_putString(initString);
     /* Replace with your application code */
     while (1) 
     {
-		//USART_putChar(UART_getChar());
+
 		
 		char receivedChar = UART_getChar();
-		char blinkReceiveChar = 'B';
-		char tempReceiveChar = 'T';
-		
 		
 		switch(receivedChar)
 		{
@@ -168,7 +144,7 @@ int main(void)
 			
 		}
 		
-		USART_putChar('\n');
+		UART_putChar('\n');
 		
     }
 	return 0;
