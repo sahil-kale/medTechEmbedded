@@ -46,7 +46,7 @@ int ADCsingleRead(uint8_t adcPort) //adcPort argument takes an integer from 0-5 
 }
 
 
-void USART_TransmitChar(unsigned char data)
+void USART_putChar(unsigned char data)
 {
 	while (isBitClear(UCSR0A, UDRE0)) //If UDRE0 0 bit is set to 1, the transmitter is ready to transmit again.
 	{}
@@ -57,11 +57,18 @@ void UART_putString(char* stringA)
 {
 	while(*stringA != 0x00)
 	{
-		USART_TransmitChar(*stringA);
+		USART_putChar(*stringA);
 		stringA++;
 	}
 }
 
+unsigned char UART_receiveChar()
+{
+	/* Wait for data to be received */
+	while (!(UCSR0A & (1<<RXC0)));
+	/* Get and return received data from buffer */
+	return UDR0;
+}
 
 void UART_init(uint16_t ubrr) //takes in baud rate number
 {
@@ -111,12 +118,22 @@ int main(void)
     /* Replace with your application code */
     while (1) 
     {
+		char tempReceiveChar = 'T';
+		if(UART_receiveChar() == tempReceiveChar)
+		{
+			char temperatureString[] = "TempC";
+			transmitADCvalues(5, temperatureString);
+			
+			
+			USART_putChar('\n'); //new line
+		}
 		
-		char temperatureString[] = "TempC";
-		transmitADCvalues(5, temperatureString);
+		char blinkReceiveChar = 'B';
+		if(UART_receiveChar() == blinkReceiveChar)
+		{
+			blinkLED();
+		}
 		
-		
-		USART_TransmitChar('\n'); //new line
     }
 	return 0;
 }
