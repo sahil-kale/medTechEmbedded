@@ -16,7 +16,7 @@
 #include <util/delay.h>
 #include <stdlib.h>
 
-#define baudRate 25 //Fosc/(16*baudRate), Baud rate of 2400
+#define baudRate 12 //Fosc/(16*baudRate), Baud rate of 4800
 
 #define isBitSet(byte, bit) (byte & (1 << bit))
 #define isBitClear(byte, bit) !(byte & (1 << bit))
@@ -62,12 +62,36 @@ void UART_putString(char* stringA)
 	}
 }
 
-unsigned char UART_receiveChar()
+unsigned char UART_getChar()
 {
 	/* Wait for data to be received */
-	while (!(UCSR0A & (1<<RXC0)));
+	while (!(UCSR0A & (1<<RXC0)))
+	{
+		//blinkLED();
+	}
 	/* Get and return received data from buffer */
 	return UDR0;
+}
+
+void UART_getLine(char* buf, uint8_t n)
+{
+	uint8_t bufIdx = 0;
+	char c;
+
+	// while received character is not carriage return
+	// and end of buffer has not been reached
+	do
+	{
+		// receive character
+		c = UART_getChar();
+
+		// store character in buffer
+		buf[bufIdx++] = c;
+	}
+	while((bufIdx < n) && (c != '\r'));
+
+	// ensure buffer is null terminated
+	buf[bufIdx] = 0;
 }
 
 void UART_init(uint16_t ubrr) //takes in baud rate number
@@ -95,6 +119,8 @@ void init()
 {
 	unsigned int ubrr = baudRate;
 	UART_init(ubrr);
+	
+	
 	DDRB |= 0b00000001;	
 	blinkLED();
 	
@@ -114,25 +140,35 @@ int main(void)
 {
 	
 	init();
+	uint8_t receiveBufferSize = 20;
+	char receiveBuffer[receiveBufferSize];
 	
+	char initString[] = "Started";
+	UART_putString(initString);
     /* Replace with your application code */
     while (1) 
     {
+		//USART_putChar(UART_getChar());
+		
+		char receivedChar = UART_getChar();
+		char blinkReceiveChar = 'B';
 		char tempReceiveChar = 'T';
-		if(UART_receiveChar() == tempReceiveChar)
+		
+		
+		switch(receivedChar)
 		{
-			char temperatureString[] = "TempC";
-			transmitADCvalues(5, temperatureString);
+			case 'B': //blink code
+				blinkLED();
+				break;
+				
+			case 'T': //Temperature code				
+
+				transmitADCvalues(5,"TempC");
+				break;
 			
-			
-			USART_putChar('\n'); //new line
 		}
 		
-		char blinkReceiveChar = 'B';
-		if(UART_receiveChar() == blinkReceiveChar)
-		{
-			blinkLED();
-		}
+		USART_putChar('\n');
 		
     }
 	return 0;
