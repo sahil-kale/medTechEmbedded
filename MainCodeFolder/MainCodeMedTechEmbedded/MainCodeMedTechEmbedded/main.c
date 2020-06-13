@@ -15,12 +15,37 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #define baudRate 12 //Fosc/(16*baudRate), Baud rate of 4800
 
 #define isBitSet(byte, bit) (byte & (1 << bit))
 #define isBitClear(byte, bit) !(byte & (1 << bit))
 #define toggleBit(byte, bit) (byte ^= (1 << bit))
+
+void slaveSelector(uint8_t slaveSelectNumber) //Number between 0-7
+{
+	DDRB |= 0b00001110;
+	bool firstBit = isBitSet(slaveSelectNumber, 2);
+	bool secondBit = isBitSet(slaveSelectNumber, 1);
+	bool thirdBit = isBitSet(slaveSelectNumber, 0);
+	
+	if(!(firstBit == isBitSet(PORTB, PB1)))
+	{
+		toggleBit(PORTB, PB1);
+	}
+	
+	if(!(secondBit == isBitSet(PORTB, PB2)))
+	{
+		toggleBit(PORTB, PB2);
+	}
+	
+	if(!(thirdBit == isBitSet(PORTB, PB3)))
+	{
+		toggleBit(PORTB, PB3);
+	}
+}
+
 
 int ADCsingleRead(uint8_t adcPort) //adcPort argument takes an integer from 0-5 that will specify the ADC to use. Easier than hard coding the port so that in the future, we can call the function :)
 {
@@ -101,6 +126,7 @@ void blinkLED() //blinks the led. Ports are hardcoded.
 
 void init()
 {
+	
 	unsigned int ubrr = baudRate;
 	UART_init(ubrr);
 	
@@ -141,6 +167,17 @@ int main(void)
 
 				transmitADCvalues(5,"TempC");
 				break;
+			case '0':
+				slaveSelector(0);
+				break;
+			case '1':
+				slaveSelector(1);
+				break;
+			case '2':
+				slaveSelector(2);
+				break;
+			default:
+				UART_putString("Donkey");
 			
 		}
 		
