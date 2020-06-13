@@ -11,21 +11,21 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000003f8  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000068  00000000  00000000  00000434  2**0
+  4 .debug_aranges 00000098  00000000  00000000  00000434  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000bb1  00000000  00000000  0000049c  2**0
+  5 .debug_info   00000d27  00000000  00000000  000004cc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 0000080b  00000000  00000000  0000104d  2**0
+  6 .debug_abbrev 000009b1  00000000  00000000  000011f3  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   00000494  00000000  00000000  00001858  2**0
+  7 .debug_line   0000061c  00000000  00000000  00001ba4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  000000ec  00000000  00000000  00001cec  2**2
+  8 .debug_frame  00000114  00000000  00000000  000021c0  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000506  00000000  00000000  00001dd8  2**0
+  9 .debug_str    0000051d  00000000  00000000  000022d4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    000003c9  00000000  00000000  000022de  2**0
+ 10 .debug_loc    000003c9  00000000  00000000  000027f1  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000058  00000000  00000000  000026a7  2**0
+ 11 .debug_ranges 00000068  00000000  00000000  00002bba  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -84,276 +84,280 @@ Disassembly of section .text:
 00000092 <__bad_interrupt>:
   92:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
-00000096 <slaveSelector>:
-#define isBitSet(byte, bit) (byte & (1 << bit))
-#define isBitClear(byte, bit) !(byte & (1 << bit))
-#define toggleBit(byte, bit) (byte ^= (1 << bit))
-
-void slaveSelector(uint8_t slaveSelectNumber) //Number between 0-7
-{
-  96:	98 2f       	mov	r25, r24
-	DDRB |= 0b00001110;
-  98:	84 b1       	in	r24, 0x04	; 4
-  9a:	8e 60       	ori	r24, 0x0E	; 14
-  9c:	84 b9       	out	0x04, r24	; 4
-	bool firstBit = isBitSet(slaveSelectNumber, 2);
-	bool secondBit = isBitSet(slaveSelectNumber, 1);
-  9e:	91 fb       	bst	r25, 1
-  a0:	44 27       	eor	r20, r20
-  a2:	40 f9       	bld	r20, 0
-	bool thirdBit = isBitSet(slaveSelectNumber, 0);
-  a4:	29 2f       	mov	r18, r25
-  a6:	21 70       	andi	r18, 0x01	; 1
-	
-	if(!(firstBit == isBitSet(PORTB, PB1)))
-  a8:	85 b1       	in	r24, 0x05	; 5
-  aa:	92 fb       	bst	r25, 2
-  ac:	66 27       	eor	r22, r22
-  ae:	60 f9       	bld	r22, 0
-  b0:	70 e0       	ldi	r23, 0x00	; 0
-  b2:	82 70       	andi	r24, 0x02	; 2
-  b4:	90 e0       	ldi	r25, 0x00	; 0
-  b6:	68 17       	cp	r22, r24
-  b8:	79 07       	cpc	r23, r25
-  ba:	21 f0       	breq	.+8      	; 0xc4 <slaveSelector+0x2e>
-	{
-		toggleBit(PORTB, PB1);
-  bc:	95 b1       	in	r25, 0x05	; 5
-  be:	82 e0       	ldi	r24, 0x02	; 2
-  c0:	89 27       	eor	r24, r25
-  c2:	85 b9       	out	0x05, r24	; 5
-	}
-	
-	if(!(secondBit == isBitSet(PORTB, PB2)))
-  c4:	85 b1       	in	r24, 0x05	; 5
-  c6:	50 e0       	ldi	r21, 0x00	; 0
-  c8:	84 70       	andi	r24, 0x04	; 4
-  ca:	90 e0       	ldi	r25, 0x00	; 0
-  cc:	48 17       	cp	r20, r24
-  ce:	59 07       	cpc	r21, r25
-  d0:	21 f0       	breq	.+8      	; 0xda <slaveSelector+0x44>
-	{
-		toggleBit(PORTB, PB2);
-  d2:	95 b1       	in	r25, 0x05	; 5
-  d4:	84 e0       	ldi	r24, 0x04	; 4
-  d6:	89 27       	eor	r24, r25
-  d8:	85 b9       	out	0x05, r24	; 5
-	}
-	
-	if(!(thirdBit == isBitSet(PORTB, PB3)))
-  da:	85 b1       	in	r24, 0x05	; 5
-  dc:	30 e0       	ldi	r19, 0x00	; 0
-  de:	88 70       	andi	r24, 0x08	; 8
-  e0:	90 e0       	ldi	r25, 0x00	; 0
-  e2:	28 17       	cp	r18, r24
-  e4:	39 07       	cpc	r19, r25
-  e6:	21 f0       	breq	.+8      	; 0xf0 <slaveSelector+0x5a>
-	{
-		toggleBit(PORTB, PB3);
-  e8:	95 b1       	in	r25, 0x05	; 5
-  ea:	88 e0       	ldi	r24, 0x08	; 8
-  ec:	89 27       	eor	r24, r25
-  ee:	85 b9       	out	0x05, r24	; 5
-  f0:	08 95       	ret
-
-000000f2 <ADCsingleRead>:
+00000096 <ADCsingleRead>:
 
 int ADCsingleRead(uint8_t adcPort) //adcPort argument takes an integer from 0-5 that will specify the ADC to use. Easier than hard coding the port so that in the future, we can call the function :)
 {
 	int returnValue;
 	//Reset Registers
 	ADMUX = 0b00000000;
-  f2:	ac e7       	ldi	r26, 0x7C	; 124
-  f4:	b0 e0       	ldi	r27, 0x00	; 0
-  f6:	1c 92       	st	X, r1
+  96:	ac e7       	ldi	r26, 0x7C	; 124
+  98:	b0 e0       	ldi	r27, 0x00	; 0
+  9a:	1c 92       	st	X, r1
 	ADCSRA = 0b00000000;
-  f8:	ea e7       	ldi	r30, 0x7A	; 122
-  fa:	f0 e0       	ldi	r31, 0x00	; 0
-  fc:	10 82       	st	Z, r1
+  9c:	ea e7       	ldi	r30, 0x7A	; 122
+  9e:	f0 e0       	ldi	r31, 0x00	; 0
+  a0:	10 82       	st	Z, r1
 	ADCSRB = 0b00000000;
-  fe:	10 92 7b 00 	sts	0x007B, r1	; 0x80007b <__DATA_REGION_ORIGIN__+0x1b>
+  a2:	10 92 7b 00 	sts	0x007B, r1	; 0x80007b <__DATA_REGION_ORIGIN__+0x1b>
 	
 	ADMUX = adcPort;
- 102:	8c 93       	st	X, r24
+  a6:	8c 93       	st	X, r24
 	ADMUX |= (1 << REFS0) | (0 << ADLAR); //AVcc internal reference, left justify ADLAR. Plan is to output ADCH for now since this is a test
- 104:	8c 91       	ld	r24, X
- 106:	80 64       	ori	r24, 0x40	; 64
- 108:	8c 93       	st	X, r24
+  a8:	8c 91       	ld	r24, X
+  aa:	80 64       	ori	r24, 0x40	; 64
+  ac:	8c 93       	st	X, r24
 	ADCSRA |= (1 << ADEN) | (1 << ADPS1) | (1 << ADPS0); //Enable the ADC, divide input clock by 8 for the ADC.
- 10a:	80 81       	ld	r24, Z
- 10c:	83 68       	ori	r24, 0x83	; 131
- 10e:	80 83       	st	Z, r24
+  ae:	80 81       	ld	r24, Z
+  b0:	83 68       	ori	r24, 0x83	; 131
+  b2:	80 83       	st	Z, r24
 	ADCSRA |= (1 << ADSC); //Fire the cannon... I mean ADC
- 110:	80 81       	ld	r24, Z
- 112:	80 64       	ori	r24, 0x40	; 64
- 114:	80 83       	st	Z, r24
+  b4:	80 81       	ld	r24, Z
+  b6:	80 64       	ori	r24, 0x40	; 64
+  b8:	80 83       	st	Z, r24
 	
 	while(isBitSet(ADCSRA, ADSC)) //stalls the code while the ADC is initalizing/running
- 116:	80 81       	ld	r24, Z
- 118:	86 fd       	sbrc	r24, 6
- 11a:	fd cf       	rjmp	.-6      	; 0x116 <ADCsingleRead+0x24>
+  ba:	80 81       	ld	r24, Z
+  bc:	86 fd       	sbrc	r24, 6
+  be:	fd cf       	rjmp	.-6      	; 0xba <ADCsingleRead+0x24>
 	{}
-		
+	
 	//the fake values were put in to avoid issues with manipulating ADCH and ADCL
 	unsigned int fakeADCL = ADCL;
- 11c:	20 91 78 00 	lds	r18, 0x0078	; 0x800078 <__DATA_REGION_ORIGIN__+0x18>
-	unsigned int fakeADCH = ADCH;	
- 120:	80 91 79 00 	lds	r24, 0x0079	; 0x800079 <__DATA_REGION_ORIGIN__+0x19>
+  c0:	20 91 78 00 	lds	r18, 0x0078	; 0x800078 <__DATA_REGION_ORIGIN__+0x18>
+	unsigned int fakeADCH = ADCH;
+  c4:	80 91 79 00 	lds	r24, 0x0079	; 0x800079 <__DATA_REGION_ORIGIN__+0x19>
 	returnValue = (fakeADCH << 8) + fakeADCL;
 	return returnValue;
- 124:	90 e0       	ldi	r25, 0x00	; 0
- 126:	98 2f       	mov	r25, r24
- 128:	88 27       	eor	r24, r24
+  c8:	90 e0       	ldi	r25, 0x00	; 0
+  ca:	98 2f       	mov	r25, r24
+  cc:	88 27       	eor	r24, r24
+  ce:	82 0f       	add	r24, r18
+  d0:	91 1d       	adc	r25, r1
+  d2:	08 95       	ret
+
+000000d4 <UART_putChar>:
+	UART_putString(initString);
 }
- 12a:	82 0f       	add	r24, r18
- 12c:	91 1d       	adc	r25, r1
- 12e:	08 95       	ret
-
-00000130 <UART_putChar>:
-
 
 void UART_putChar(unsigned char data)
 {
 	while (isBitClear(UCSR0A, UDRE0)) //If UDRE0 0 bit is set to 1, the transmitter is ready to transmit again.
- 130:	e0 ec       	ldi	r30, 0xC0	; 192
- 132:	f0 e0       	ldi	r31, 0x00	; 0
- 134:	90 81       	ld	r25, Z
- 136:	95 ff       	sbrs	r25, 5
- 138:	fd cf       	rjmp	.-6      	; 0x134 <UART_putChar+0x4>
+  d4:	e0 ec       	ldi	r30, 0xC0	; 192
+  d6:	f0 e0       	ldi	r31, 0x00	; 0
+  d8:	90 81       	ld	r25, Z
+  da:	95 ff       	sbrs	r25, 5
+  dc:	fd cf       	rjmp	.-6      	; 0xd8 <UART_putChar+0x4>
 	{}
 	UDR0 = data;
- 13a:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__DATA_REGION_ORIGIN__+0x66>
- 13e:	08 95       	ret
+  de:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__DATA_REGION_ORIGIN__+0x66>
+  e2:	08 95       	ret
 
-00000140 <UART_putString>:
+000000e4 <UART_putString>:
 }
 
 void UART_putString(char* stringA)
 {
- 140:	cf 93       	push	r28
- 142:	df 93       	push	r29
- 144:	ec 01       	movw	r28, r24
+  e4:	cf 93       	push	r28
+  e6:	df 93       	push	r29
+  e8:	ec 01       	movw	r28, r24
 	while(*stringA != 0x00)
- 146:	88 81       	ld	r24, Y
- 148:	88 23       	and	r24, r24
- 14a:	31 f0       	breq	.+12     	; 0x158 <UART_putString+0x18>
- 14c:	21 96       	adiw	r28, 0x01	; 1
+  ea:	88 81       	ld	r24, Y
+  ec:	88 23       	and	r24, r24
+  ee:	31 f0       	breq	.+12     	; 0xfc <UART_putString+0x18>
+  f0:	21 96       	adiw	r28, 0x01	; 1
 	{
 		UART_putChar(*stringA);
- 14e:	0e 94 98 00 	call	0x130	; 0x130 <UART_putChar>
+  f2:	0e 94 6a 00 	call	0xd4	; 0xd4 <UART_putChar>
 	UDR0 = data;
 }
 
 void UART_putString(char* stringA)
 {
 	while(*stringA != 0x00)
- 152:	89 91       	ld	r24, Y+
- 154:	81 11       	cpse	r24, r1
- 156:	fb cf       	rjmp	.-10     	; 0x14e <UART_putString+0xe>
+  f6:	89 91       	ld	r24, Y+
+  f8:	81 11       	cpse	r24, r1
+  fa:	fb cf       	rjmp	.-10     	; 0xf2 <UART_putString+0xe>
 	{
 		UART_putChar(*stringA);
 		stringA++;
 	}
 }
- 158:	df 91       	pop	r29
- 15a:	cf 91       	pop	r28
- 15c:	08 95       	ret
+  fc:	df 91       	pop	r29
+  fe:	cf 91       	pop	r28
+ 100:	08 95       	ret
 
-0000015e <UART_getChar>:
+00000102 <UART_init>:
+ */ 
 
-unsigned char UART_getChar()
-{
-	/* Wait for data to be received */
-	while (!(UCSR0A & (1<<RXC0)))
- 15e:	e0 ec       	ldi	r30, 0xC0	; 192
- 160:	f0 e0       	ldi	r31, 0x00	; 0
- 162:	80 81       	ld	r24, Z
- 164:	88 23       	and	r24, r24
- 166:	ec f7       	brge	.-6      	; 0x162 <UART_getChar+0x4>
-	{
-		//blinkLED();
-	}
-	/* Get and return received data from buffer */
-	return UDR0;
- 168:	80 91 c6 00 	lds	r24, 0x00C6	; 0x8000c6 <__DATA_REGION_ORIGIN__+0x66>
-}
- 16c:	08 95       	ret
-
-0000016e <UART_init>:
-
+#include "UART.h"
 
 void UART_init(uint16_t ubrr) //takes in baud rate number
 {
- 16e:	cf 93       	push	r28
- 170:	df 93       	push	r29
- 172:	cd b7       	in	r28, 0x3d	; 61
- 174:	de b7       	in	r29, 0x3e	; 62
- 176:	61 97       	sbiw	r28, 0x11	; 17
- 178:	0f b6       	in	r0, 0x3f	; 63
- 17a:	f8 94       	cli
- 17c:	de bf       	out	0x3e, r29	; 62
- 17e:	0f be       	out	0x3f, r0	; 63
- 180:	cd bf       	out	0x3d, r28	; 61
+ 102:	cf 93       	push	r28
+ 104:	df 93       	push	r29
+ 106:	cd b7       	in	r28, 0x3d	; 61
+ 108:	de b7       	in	r29, 0x3e	; 62
+ 10a:	61 97       	sbiw	r28, 0x11	; 17
+ 10c:	0f b6       	in	r0, 0x3f	; 63
+ 10e:	f8 94       	cli
+ 110:	de bf       	out	0x3e, r29	; 62
+ 112:	0f be       	out	0x3f, r0	; 63
+ 114:	cd bf       	out	0x3d, r28	; 61
 	// set baudrate in UBRR
 	UBRR0L = (uint8_t)(ubrr & 0xFF); //gets low bits for baudrate
- 182:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <__DATA_REGION_ORIGIN__+0x64>
+ 116:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <__DATA_REGION_ORIGIN__+0x64>
 	UBRR0H = (uint8_t)(ubrr >> 8); //gets high bits for baudrate
- 186:	90 93 c5 00 	sts	0x00C5, r25	; 0x8000c5 <__DATA_REGION_ORIGIN__+0x65>
+ 11a:	90 93 c5 00 	sts	0x00C5, r25	; 0x8000c5 <__DATA_REGION_ORIGIN__+0x65>
 
 	UCSR0C = (1 << USBS0)|(3 << UCSZ00); //Set frame format: 8data, 2stop bit
- 18a:	8e e0       	ldi	r24, 0x0E	; 14
- 18c:	80 93 c2 00 	sts	0x00C2, r24	; 0x8000c2 <__DATA_REGION_ORIGIN__+0x62>
+ 11e:	8e e0       	ldi	r24, 0x0E	; 14
+ 120:	80 93 c2 00 	sts	0x00C2, r24	; 0x8000c2 <__DATA_REGION_ORIGIN__+0x62>
 
 	// enable the transmitter and receiver
 	UCSR0B |= (1 << RXEN0) | (1 << TXEN0);
- 190:	e1 ec       	ldi	r30, 0xC1	; 193
- 192:	f0 e0       	ldi	r31, 0x00	; 0
- 194:	80 81       	ld	r24, Z
- 196:	88 61       	ori	r24, 0x18	; 24
- 198:	80 83       	st	Z, r24
+ 124:	e1 ec       	ldi	r30, 0xC1	; 193
+ 126:	f0 e0       	ldi	r31, 0x00	; 0
+ 128:	80 81       	ld	r24, Z
+ 12a:	88 61       	ori	r24, 0x18	; 24
+ 12c:	80 83       	st	Z, r24
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- 19a:	2f e3       	ldi	r18, 0x3F	; 63
- 19c:	82 e4       	ldi	r24, 0x42	; 66
- 19e:	9f e0       	ldi	r25, 0x0F	; 15
- 1a0:	21 50       	subi	r18, 0x01	; 1
- 1a2:	80 40       	sbci	r24, 0x00	; 0
- 1a4:	90 40       	sbci	r25, 0x00	; 0
- 1a6:	e1 f7       	brne	.-8      	; 0x1a0 <UART_init+0x32>
- 1a8:	00 c0       	rjmp	.+0      	; 0x1aa <UART_init+0x3c>
- 1aa:	00 00       	nop
+ 12e:	2f e3       	ldi	r18, 0x3F	; 63
+ 130:	82 e4       	ldi	r24, 0x42	; 66
+ 132:	9f e0       	ldi	r25, 0x0F	; 15
+ 134:	21 50       	subi	r18, 0x01	; 1
+ 136:	80 40       	sbci	r24, 0x00	; 0
+ 138:	90 40       	sbci	r25, 0x00	; 0
+ 13a:	e1 f7       	brne	.-8      	; 0x134 <UART_init+0x32>
+ 13c:	00 c0       	rjmp	.+0      	; 0x13e <UART_init+0x3c>
+ 13e:	00 00       	nop
 	_delay_ms(5000);
 	
 	char initString[] = "UART Initialized";
- 1ac:	81 e1       	ldi	r24, 0x11	; 17
- 1ae:	e0 e0       	ldi	r30, 0x00	; 0
- 1b0:	f1 e0       	ldi	r31, 0x01	; 1
- 1b2:	de 01       	movw	r26, r28
- 1b4:	11 96       	adiw	r26, 0x01	; 1
- 1b6:	01 90       	ld	r0, Z+
- 1b8:	0d 92       	st	X+, r0
- 1ba:	8a 95       	dec	r24
- 1bc:	e1 f7       	brne	.-8      	; 0x1b6 <UART_init+0x48>
+ 140:	81 e1       	ldi	r24, 0x11	; 17
+ 142:	e0 e0       	ldi	r30, 0x00	; 0
+ 144:	f1 e0       	ldi	r31, 0x01	; 1
+ 146:	de 01       	movw	r26, r28
+ 148:	11 96       	adiw	r26, 0x01	; 1
+ 14a:	01 90       	ld	r0, Z+
+ 14c:	0d 92       	st	X+, r0
+ 14e:	8a 95       	dec	r24
+ 150:	e1 f7       	brne	.-8      	; 0x14a <UART_init+0x48>
 	UART_putString(initString);
- 1be:	ce 01       	movw	r24, r28
- 1c0:	01 96       	adiw	r24, 0x01	; 1
- 1c2:	0e 94 a0 00 	call	0x140	; 0x140 <UART_putString>
+ 152:	ce 01       	movw	r24, r28
+ 154:	01 96       	adiw	r24, 0x01	; 1
+ 156:	0e 94 72 00 	call	0xe4	; 0xe4 <UART_putString>
 }
- 1c6:	61 96       	adiw	r28, 0x11	; 17
- 1c8:	0f b6       	in	r0, 0x3f	; 63
- 1ca:	f8 94       	cli
- 1cc:	de bf       	out	0x3e, r29	; 62
- 1ce:	0f be       	out	0x3f, r0	; 63
- 1d0:	cd bf       	out	0x3d, r28	; 61
- 1d2:	df 91       	pop	r29
- 1d4:	cf 91       	pop	r28
+ 15a:	61 96       	adiw	r28, 0x11	; 17
+ 15c:	0f b6       	in	r0, 0x3f	; 63
+ 15e:	f8 94       	cli
+ 160:	de bf       	out	0x3e, r29	; 62
+ 162:	0f be       	out	0x3f, r0	; 63
+ 164:	cd bf       	out	0x3d, r28	; 61
+ 166:	df 91       	pop	r29
+ 168:	cf 91       	pop	r28
+ 16a:	08 95       	ret
+
+0000016c <UART_getChar>:
+}
+
+unsigned char UART_getChar()
+{
+	/* Wait for data to be received */
+	while (!(UCSR0A & (1<<RXC0)))
+ 16c:	e0 ec       	ldi	r30, 0xC0	; 192
+ 16e:	f0 e0       	ldi	r31, 0x00	; 0
+ 170:	80 81       	ld	r24, Z
+ 172:	88 23       	and	r24, r24
+ 174:	ec f7       	brge	.-6      	; 0x170 <UART_getChar+0x4>
+	{
+		//blinkLED();
+	}
+	/* Get and return received data from buffer */
+	return UDR0;
+ 176:	80 91 c6 00 	lds	r24, 0x00C6	; 0x8000c6 <__DATA_REGION_ORIGIN__+0x66>
+ 17a:	08 95       	ret
+
+0000017c <slaveSelector>:
+#include "mainInclude.h"
+#include "UART.h"
+#include "adc.h"
+
+void slaveSelector(uint8_t slaveSelectNumber) //Number between 0-7
+{
+ 17c:	98 2f       	mov	r25, r24
+	DDRB |= 0b00001110;
+ 17e:	84 b1       	in	r24, 0x04	; 4
+ 180:	8e 60       	ori	r24, 0x0E	; 14
+ 182:	84 b9       	out	0x04, r24	; 4
+	bool firstBit = isBitSet(slaveSelectNumber, 2);
+	bool secondBit = isBitSet(slaveSelectNumber, 1);
+ 184:	91 fb       	bst	r25, 1
+ 186:	44 27       	eor	r20, r20
+ 188:	40 f9       	bld	r20, 0
+	bool thirdBit = isBitSet(slaveSelectNumber, 0);
+ 18a:	29 2f       	mov	r18, r25
+ 18c:	21 70       	andi	r18, 0x01	; 1
+	
+	if(!(firstBit == isBitSet(PORTB, PB1)))
+ 18e:	85 b1       	in	r24, 0x05	; 5
+ 190:	92 fb       	bst	r25, 2
+ 192:	66 27       	eor	r22, r22
+ 194:	60 f9       	bld	r22, 0
+ 196:	70 e0       	ldi	r23, 0x00	; 0
+ 198:	82 70       	andi	r24, 0x02	; 2
+ 19a:	90 e0       	ldi	r25, 0x00	; 0
+ 19c:	68 17       	cp	r22, r24
+ 19e:	79 07       	cpc	r23, r25
+ 1a0:	21 f0       	breq	.+8      	; 0x1aa <slaveSelector+0x2e>
+	{
+		toggleBit(PORTB, PB1);
+ 1a2:	95 b1       	in	r25, 0x05	; 5
+ 1a4:	82 e0       	ldi	r24, 0x02	; 2
+ 1a6:	89 27       	eor	r24, r25
+ 1a8:	85 b9       	out	0x05, r24	; 5
+	}
+	
+	if(!(secondBit == isBitSet(PORTB, PB2)))
+ 1aa:	85 b1       	in	r24, 0x05	; 5
+ 1ac:	50 e0       	ldi	r21, 0x00	; 0
+ 1ae:	84 70       	andi	r24, 0x04	; 4
+ 1b0:	90 e0       	ldi	r25, 0x00	; 0
+ 1b2:	48 17       	cp	r20, r24
+ 1b4:	59 07       	cpc	r21, r25
+ 1b6:	21 f0       	breq	.+8      	; 0x1c0 <slaveSelector+0x44>
+	{
+		toggleBit(PORTB, PB2);
+ 1b8:	95 b1       	in	r25, 0x05	; 5
+ 1ba:	84 e0       	ldi	r24, 0x04	; 4
+ 1bc:	89 27       	eor	r24, r25
+ 1be:	85 b9       	out	0x05, r24	; 5
+	}
+	
+	if(!(thirdBit == isBitSet(PORTB, PB3)))
+ 1c0:	85 b1       	in	r24, 0x05	; 5
+ 1c2:	30 e0       	ldi	r19, 0x00	; 0
+ 1c4:	88 70       	andi	r24, 0x08	; 8
+ 1c6:	90 e0       	ldi	r25, 0x00	; 0
+ 1c8:	28 17       	cp	r18, r24
+ 1ca:	39 07       	cpc	r19, r25
+ 1cc:	21 f0       	breq	.+8      	; 0x1d6 <slaveSelector+0x5a>
+	{
+		toggleBit(PORTB, PB3);
+ 1ce:	95 b1       	in	r25, 0x05	; 5
+ 1d0:	88 e0       	ldi	r24, 0x08	; 8
+ 1d2:	89 27       	eor	r24, r25
+ 1d4:	85 b9       	out	0x05, r24	; 5
  1d6:	08 95       	ret
 
 000001d8 <blinkLED>:
+}
+
 
 void blinkLED() //blinks the led. Ports are hardcoded.
 {
@@ -390,17 +394,15 @@ void blinkLED() //blinks the led. Ports are hardcoded.
  20c:	08 95       	ret
 
 0000020e <init>:
+}
 
 void init()
 {
-	
 	unsigned int ubrr = baudRate;
 	UART_init(ubrr);
  20e:	8c e0       	ldi	r24, 0x0C	; 12
  210:	90 e0       	ldi	r25, 0x00	; 0
- 212:	0e 94 b7 00 	call	0x16e	; 0x16e <UART_init>
-	
-	
+ 212:	0e 94 81 00 	call	0x102	; 0x102 <UART_init>
 	blinkLED();
  216:	0e 94 ec 00 	call	0x1d8	; 0x1d8 <blinkLED>
  21a:	08 95       	ret
@@ -425,7 +427,7 @@ void transmitADCvalues(uint8_t ADCPort, char* stringToTransmit) //does the ADC c
  232:	cd bf       	out	0x3d, r28	; 61
  234:	8b 01       	movw	r16, r22
 	int reading = ADCsingleRead(ADCPort);
- 236:	0e 94 79 00 	call	0xf2	; 0xf2 <ADCsingleRead>
+ 236:	0e 94 4b 00 	call	0x96	; 0x96 <ADCsingleRead>
     } else if (__radix < 2 || __radix > 36) {
 	*__s = 0;
 	return __s;
@@ -442,10 +444,10 @@ void transmitADCvalues(uint8_t ADCPort, char* stringToTransmit) //does the ADC c
 	UART_putString(buffer);
  246:	ce 01       	movw	r24, r28
  248:	01 96       	adiw	r24, 0x01	; 1
- 24a:	0e 94 a0 00 	call	0x140	; 0x140 <UART_putString>
+ 24a:	0e 94 72 00 	call	0xe4	; 0xe4 <UART_putString>
 	UART_putString(stringToTransmit);
  24e:	c8 01       	movw	r24, r16
- 250:	0e 94 a0 00 	call	0x140	; 0x140 <UART_putString>
+ 250:	0e 94 72 00 	call	0xe4	; 0xe4 <UART_putString>
 	
 }
  254:	2b 96       	adiw	r28, 0x0b	; 11
@@ -467,14 +469,12 @@ int main(void)
 	
 	init();	
  26a:	0e 94 07 01 	call	0x20e	; 0x20e <init>
+	
     /* Replace with your application code */
     while (1) 
     {
-
-		
 		char receivedChar = UART_getChar();
- 26e:	0e 94 af 00 	call	0x15e	; 0x15e <UART_getChar>
-		
+ 26e:	0e 94 b6 00 	call	0x16c	; 0x16c <UART_getChar>
 		switch(receivedChar)
  272:	82 33       	cpi	r24, 0x32	; 50
  274:	e1 f0       	breq	.+56     	; 0x2ae <main+0x44>
@@ -495,9 +495,7 @@ int main(void)
  28c:	0e 94 ec 00 	call	0x1d8	; 0x1d8 <blinkLED>
 				break;
  290:	16 c0       	rjmp	.+44     	; 0x2be <main+0x54>
-				
 			case 'T': //Temperature code				
-
 				transmitADCvalues(5,"TempC");
  292:	61 e1       	ldi	r22, 0x11	; 17
  294:	71 e0       	ldi	r23, 0x01	; 1
@@ -508,32 +506,32 @@ int main(void)
 			case '0':
 				slaveSelector(0);
  29e:	80 e0       	ldi	r24, 0x00	; 0
- 2a0:	0e 94 4b 00 	call	0x96	; 0x96 <slaveSelector>
+ 2a0:	0e 94 be 00 	call	0x17c	; 0x17c <slaveSelector>
 				break;
  2a4:	0c c0       	rjmp	.+24     	; 0x2be <main+0x54>
 			case '1':
 				slaveSelector(1);
  2a6:	81 e0       	ldi	r24, 0x01	; 1
- 2a8:	0e 94 4b 00 	call	0x96	; 0x96 <slaveSelector>
+ 2a8:	0e 94 be 00 	call	0x17c	; 0x17c <slaveSelector>
 				break;
  2ac:	08 c0       	rjmp	.+16     	; 0x2be <main+0x54>
 			case '2':
 				slaveSelector(2);
  2ae:	82 e0       	ldi	r24, 0x02	; 2
- 2b0:	0e 94 4b 00 	call	0x96	; 0x96 <slaveSelector>
+ 2b0:	0e 94 be 00 	call	0x17c	; 0x17c <slaveSelector>
 				break;
  2b4:	04 c0       	rjmp	.+8      	; 0x2be <main+0x54>
 			default:
 				UART_putString("Donkey");
  2b6:	87 e1       	ldi	r24, 0x17	; 23
  2b8:	91 e0       	ldi	r25, 0x01	; 1
- 2ba:	0e 94 a0 00 	call	0x140	; 0x140 <UART_putString>
-			
+ 2ba:	0e 94 72 00 	call	0xe4	; 0xe4 <UART_putString>
+				break;
 		}
 		
 		UART_putChar('\n');
  2be:	8a e0       	ldi	r24, 0x0A	; 10
- 2c0:	0e 94 98 00 	call	0x130	; 0x130 <UART_putChar>
+ 2c0:	0e 94 6a 00 	call	0xd4	; 0xd4 <UART_putChar>
 		
     }
  2c4:	d4 cf       	rjmp	.-88     	; 0x26e <main+0x4>
