@@ -178,7 +178,7 @@ int main(void)
 				break;
 			default:
 				UART_putString("Donkey");
-			
+				break;
 		}
 		
 		UART_putChar('\n');
