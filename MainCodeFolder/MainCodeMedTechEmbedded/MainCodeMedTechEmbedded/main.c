@@ -18,8 +18,14 @@ void slaveSelector(uint8_t slaveSelectNumber) //Number between 0-7
 {
 	DDRB |= 0b00001110;
 	bool firstBit = isBitSet(slaveSelectNumber, 2);
+	if(firstBit) {UART_putString("1");}
+		else {UART_putString("0");}
 	bool secondBit = isBitSet(slaveSelectNumber, 1);
+	if(secondBit) {UART_putString("1");}
+		else {UART_putString("0");}
 	bool thirdBit = isBitSet(slaveSelectNumber, 0);
+	if(thirdBit) {UART_putString("1");}
+		else {UART_putString("0");}
 	
 	if(!(firstBit == isBitSet(PORTB, PB1)))
 	{
@@ -35,6 +41,9 @@ void slaveSelector(uint8_t slaveSelectNumber) //Number between 0-7
 	{
 		toggleBit(PORTB, PB3);
 	}
+	
+	//UART_putString("Function Executed");
+	
 }
 
 
@@ -77,6 +86,7 @@ int main(void)
 		switch(receivedChar)
 		{
 			case 'B': //blink code
+				UART_putString("Blinking LED");
 				blinkLED();
 				break;
 			case 'T': //Temperature code				
@@ -91,8 +101,22 @@ int main(void)
 			case '2':
 				slaveSelector(2);
 				break;
+			case '3':
+				slaveSelector(3);
+				break;
+			case '4':
+				slaveSelector(4);
+				break;
+			case '5':
+				slaveSelector(5);
+				break;
+			case '6':
+				slaveSelector(6);
+				break;
+			case '7':
+				slaveSelector(7);
 			default:
-				UART_putString("Donkey");
+				//UART_putString("Donkey");
 				break;
 		}
 		

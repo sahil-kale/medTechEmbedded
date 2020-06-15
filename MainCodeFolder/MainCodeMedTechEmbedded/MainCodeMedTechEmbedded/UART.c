@@ -21,6 +21,7 @@ void UART_init(uint16_t ubrr) //takes in baud rate number
 	
 	char initString[] = "UART Initialized";
 	UART_putString(initString);
+	UART_putChar('\n');
 }
 
 void UART_putChar(unsigned char data)
