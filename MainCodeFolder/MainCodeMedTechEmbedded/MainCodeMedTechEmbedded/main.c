@@ -16,33 +16,49 @@
 
 void slaveSelector(uint8_t slaveSelectNumber) //Number between 0-7
 {
-	DDRB |= 0b00001110;
+	
+	
+	DDRB |= 0b00001110; //Ensure that the pins are set to output
+	
+	//Acquire the individual bits for the slaveSelect byte
 	bool firstBit = isBitSet(slaveSelectNumber, 2);
+	bool secondBit = isBitSet(slaveSelectNumber, 1);
+	bool thirdBit = isBitSet(slaveSelectNumber, 0);
+	
+	//Acquire the current state of the bits in PORT B
+	bool pinB1State = isBitSet(PORTB, PB1);
+	bool pinB2State = isBitSet(PORTB, PB2);
+	bool pinB3State = isBitSet(PORTB, PB3);
+	
+	
+	//Debugging code for Dhananjay to ensure that the appropriate slave select is set
 	if(firstBit) {UART_putString("1");}
 		else {UART_putString("0");}
-	bool secondBit = isBitSet(slaveSelectNumber, 1);
+			
 	if(secondBit) {UART_putString("1");}
 		else {UART_putString("0");}
-	bool thirdBit = isBitSet(slaveSelectNumber, 0);
+	
 	if(thirdBit) {UART_putString("1");}
 		else {UART_putString("0");}
+	UART_putChar('\n');
 	
-	if(!(firstBit == isBitSet(PORTB, PB1)))
+	
+	//Compare and set
+	if(!(firstBit == pinB1State))
 	{
 		toggleBit(PORTB, PB1);
 	}
 	
-	if(!(secondBit == isBitSet(PORTB, PB2)))
+	if(!(secondBit == pinB2State))
 	{
 		toggleBit(PORTB, PB2);
 	}
 	
-	if(!(thirdBit == isBitSet(PORTB, PB3)))
+	if(!(thirdBit == pinB3State))
 	{
 		toggleBit(PORTB, PB3);
 	}
 	
-	//UART_putString("Function Executed");
 	
 }
 
@@ -67,8 +83,8 @@ void init()
 void transmitADCvalues(uint8_t ADCPort, char* stringToTransmit) //does the ADC conversion, then does the conversion and sends the raw ADC value and then the stringToTransmit.
 {
 	int reading = ADCsingleRead(ADCPort);
-	char buffer[11];
-	itoa(reading, buffer, 2);
+	char buffer[11]; //Buffer must be # of bits + 1
+	itoa(reading, buffer, 2); //convert the bits to string
 	UART_putString(buffer);
 	UART_putString(stringToTransmit);
 	
@@ -83,7 +99,7 @@ int main(void)
     while (1) 
     {
 		char receivedChar = UART_getChar();
-		switch(receivedChar)
+		switch(receivedChar) //massive switch case for commands
 		{
 			case 'B': //blink code
 				UART_putString("Blinking LED");
@@ -119,6 +135,8 @@ int main(void)
 				//UART_putString("Donkey");
 				break;
 		}
+		
+		
 		
 		UART_putChar('\n');
 		
