@@ -19,8 +19,9 @@ void UART_init(uint16_t ubrr) //takes in baud rate number
 	UCSR0B |= (1 << RXEN0) | (1 << TXEN0);
 	_delay_ms(5000);
 	
-	char initString[] = "UART Initialized";
-	UART_putString(initString);
+	UART_putString("UART Initialized");
+	UART_putChar('\n');
+	UART_putString("Copyright Sahil Kale 2020");
 	UART_putChar('\n');
 }
 
