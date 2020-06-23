@@ -9,6 +9,7 @@
 
 void UART_init(uint16_t ubrr) //takes in baud rate number
 {
+	//int ubrr = round(F_CPU/(16*baudRateTemp)-1);
 	// set baudrate in UBRR
 	UBRR0L = (uint8_t)(ubrr & 0xFF); //gets low bits for baudrate
 	UBRR0H = (uint8_t)(ubrr >> 8); //gets high bits for baudrate

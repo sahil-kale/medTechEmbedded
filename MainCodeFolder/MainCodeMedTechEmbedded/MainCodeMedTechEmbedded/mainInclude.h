@@ -18,6 +18,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <math.h>
 
 
 #define baudRate 12 //Fosc/(16*baudRate), Baud rate of 4800
