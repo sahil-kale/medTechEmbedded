@@ -18,20 +18,21 @@ void slaveSelector(uint8_t slaveSelectNumber) //Number between 0-7
 {
 	
 	
-	DDRB |= 0b00001110; //Ensure that the pins are set to output
+	DDRB |= 0b00000111; //Ensure that the pins are set to output
 	
 	//Acquire the individual bits for the slaveSelect byte
-	bool firstBit = isBitSet(slaveSelectNumber, 2);
+	bool firstBit = isBitSet(slaveSelectNumber, 0);
 	bool secondBit = isBitSet(slaveSelectNumber, 1);
-	bool thirdBit = isBitSet(slaveSelectNumber, 0);
+	bool thirdBit = isBitSet(slaveSelectNumber, 2);
 	
 	//Acquire the current state of the bits in PORT B
-	bool pinB1State = isBitSet(PORTB, PB1);
-	bool pinB2State = isBitSet(PORTB, PB2);
-	bool pinB3State = isBitSet(PORTB, PB3);
+	bool pin1State = isBitSet(PORTB, PB0);
+	bool pin2State = isBitSet(PORTB, PB1);
+	bool pin3State = isBitSet(PORTB, PB2);
 	
 	
 	//Debugging code for Dhananjay to ensure that the appropriate slave select is set
+	/*
 	if(firstBit) {UART_putString("1");}
 		else {UART_putString("0");}
 			
@@ -41,22 +42,23 @@ void slaveSelector(uint8_t slaveSelectNumber) //Number between 0-7
 	if(thirdBit) {UART_putString("1");}
 		else {UART_putString("0");}
 	UART_putChar('\n');
+	*/
 	
 	
 	//Compare and set
-	if(!(firstBit == pinB1State))
+	if(!(firstBit == pin1State))
+	{
+		toggleBit(PORTB, PB0);
+	}
+	
+	if(!(secondBit == pin2State))
 	{
 		toggleBit(PORTB, PB1);
 	}
 	
-	if(!(secondBit == pinB2State))
+	if(!(thirdBit == pin3State))
 	{
 		toggleBit(PORTB, PB2);
-	}
-	
-	if(!(thirdBit == pinB3State))
-	{
-		toggleBit(PORTB, PB3);
 	}
 	
 	
@@ -65,10 +67,10 @@ void slaveSelector(uint8_t slaveSelectNumber) //Number between 0-7
 
 void blinkLED() //blinks the led. Ports are hardcoded.
 {
-	DDRB |= 0b00000001;	
-	toggleBit(PORTB, PB0);
+	DDRB |= 0b00001000;	
+	toggleBit(PORTB, PB3);
 	_delay_ms(500);
-	toggleBit(PORTB, PB0);
+	toggleBit(PORTB, PB3);
 	_delay_ms(500);
 }
 
@@ -77,6 +79,7 @@ void init()
 	unsigned int ubrr = baudRate;
 	UART_init(ubrr);
 	blinkLED();
+	toggleBit(PORTB, PB3);
 	
 }
 
@@ -98,6 +101,7 @@ int main(void)
     /* Replace with your application code */
     while (1) 
     {
+		
 		char receivedChar = UART_getChar();
 		switch(receivedChar) //massive switch case for commands
 		{
@@ -105,20 +109,21 @@ int main(void)
 				UART_putString("Blinking LED");
 				blinkLED();
 				break;
-			case 'T': //Temperature code				
-				transmitADCvalues(5,"TempC");
-				break;
 			case '0':
 				slaveSelector(0);
+				transmitADCvalues(0, "Selected0");
 				break;
 			case '1':
 				slaveSelector(1);
+				transmitADCvalues(0, "Selected1");
 				break;
 			case '2':
 				slaveSelector(2);
+				transmitADCvalues(0, "Selected2");
 				break;
 			case '3':
 				slaveSelector(3);
+				transmitADCvalues(0, "Selected3");
 				break;
 			case '4':
 				slaveSelector(4);
@@ -139,6 +144,7 @@ int main(void)
 		
 		
 		UART_putChar('\n');
+		
 		
     }
 	return 0;
