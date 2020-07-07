@@ -30,17 +30,18 @@ void slaveSelector(uint8_t slaveSelectNumber) //Number between 0-7
 	bool pin2State = isBitSet(PORTB, PB1);
 	bool pin3State = isBitSet(PORTB, PB2);
 	
-	
 	//Debugging code for Dhananjay to ensure that the appropriate slave select is set
 	/*
-	if(firstBit) {UART_putString("1");}
-		else {UART_putString("0");}
+	if(thirdBit) {UART_putString("1");}
+	else {UART_putString("0");}
 			
 	if(secondBit) {UART_putString("1");}
 		else {UART_putString("0");}
+			
+	if(firstBit) {UART_putString("1");}
+	else {UART_putString("0");}
 	
-	if(thirdBit) {UART_putString("1");}
-		else {UART_putString("0");}
+	
 	UART_putChar('\n');
 	*/
 	
@@ -97,6 +98,8 @@ int main(void)
 {
 	
 	init();	
+	//toggleBit(PORTB, PB0);
+	int counter = 0;
 	
     /* Replace with your application code */
     while (1) 
@@ -111,19 +114,19 @@ int main(void)
 				break;
 			case '0':
 				slaveSelector(0);
-				transmitADCvalues(0, "Selected0");
+				transmitADCvalues(0, "");
 				break;
 			case '1':
 				slaveSelector(1);
-				transmitADCvalues(0, "Selected1");
+				transmitADCvalues(0, "");
 				break;
 			case '2':
 				slaveSelector(2);
-				transmitADCvalues(0, "Selected2");
+				transmitADCvalues(0, "");
 				break;
 			case '3':
 				slaveSelector(3);
-				transmitADCvalues(0, "Selected3");
+				transmitADCvalues(0, "");
 				break;
 			case '4':
 				slaveSelector(4);
@@ -141,7 +144,7 @@ int main(void)
 				break;
 		}
 		
-		
+		//UART_putString("Sahil is Awesome :D");
 		
 		UART_putChar('\n');
 		

@@ -21,7 +21,7 @@
 #include <math.h>
 
 
-#define baudRate 1 //Fosc/(16*baudRate), Baud rate of 31250
+#define baudRate 0 //Fosc/(16*baudRate), Baud rate of 31250
 
 #define isBitSet(byte, bit) (byte & (1 << bit))
 #define isBitClear(byte, bit) !(byte & (1 << bit))

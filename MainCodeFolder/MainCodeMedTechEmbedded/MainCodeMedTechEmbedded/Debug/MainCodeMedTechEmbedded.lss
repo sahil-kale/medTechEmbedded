@@ -3,29 +3,29 @@ MainCodeMedTechEmbedded.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000060  00800100  00000378  000003ec  2**0
+  0 .data         00000038  00800100  00000378  000003ec  2**0
                   CONTENTS, ALLOC, LOAD, DATA
   1 .text         00000378  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  0000044c  2**0
+  2 .comment      00000030  00000000  00000000  00000424  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000047c  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000454  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000098  00000000  00000000  000004b8  2**0
+  4 .debug_aranges 00000098  00000000  00000000  00000490  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000e36  00000000  00000000  00000550  2**0
+  5 .debug_info   00000e36  00000000  00000000  00000528  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 0000099d  00000000  00000000  00001386  2**0
+  6 .debug_abbrev 0000099d  00000000  00000000  0000135e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000067f  00000000  00000000  00001d23  2**0
+  7 .debug_line   0000067f  00000000  00000000  00001cfb  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000104  00000000  00000000  000023a4  2**2
+  8 .debug_frame  00000104  00000000  00000000  0000237c  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000053d  00000000  00000000  000024a8  2**0
+  9 .debug_str    0000053d  00000000  00000000  00002480  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    000003e3  00000000  00000000  000029e5  2**0
+ 10 .debug_loc    000003e3  00000000  00000000  000029bd  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000068  00000000  00000000  00002dc8  2**0
+ 11 .debug_ranges 00000068  00000000  00000000  00002da0  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -94,7 +94,7 @@ Disassembly of section .text:
   a4:	02 c0       	rjmp	.+4      	; 0xaa <__do_copy_data+0x10>
   a6:	05 90       	lpm	r0, Z+
   a8:	0d 92       	st	X+, r0
-  aa:	a0 36       	cpi	r26, 0x60	; 96
+  aa:	a8 33       	cpi	r26, 0x38	; 56
   ac:	b1 07       	cpc	r27, r17
   ae:	d9 f7       	brne	.-10     	; 0xa6 <__do_copy_data+0xc>
   b0:	0e 94 33 01 	call	0x266	; 0x266 <main>
@@ -234,16 +234,16 @@ void UART_init(uint16_t ubrr) //takes in baud rate number
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- 140:	2f e3       	ldi	r18, 0x3F	; 63
- 142:	82 e4       	ldi	r24, 0x42	; 66
- 144:	9f e0       	ldi	r25, 0x0F	; 15
+ 140:	2f eb       	ldi	r18, 0xBF	; 191
+ 142:	87 e2       	ldi	r24, 0x27	; 39
+ 144:	99 e0       	ldi	r25, 0x09	; 9
  146:	21 50       	subi	r18, 0x01	; 1
  148:	80 40       	sbci	r24, 0x00	; 0
  14a:	90 40       	sbci	r25, 0x00	; 0
  14c:	e1 f7       	brne	.-8      	; 0x146 <UART_init+0x1e>
  14e:	00 c0       	rjmp	.+0      	; 0x150 <UART_init+0x28>
  150:	00 00       	nop
-	_delay_ms(5000);
+	_delay_ms(3000);
 	
 	UART_putString("UART Initialized");
  152:	80 e0       	ldi	r24, 0x00	; 0
@@ -400,7 +400,7 @@ void init()
 {
 	unsigned int ubrr = baudRate;
 	UART_init(ubrr);
- 202:	8c e0       	ldi	r24, 0x0C	; 12
+ 202:	80 e0       	ldi	r24, 0x00	; 0
  204:	90 e0       	ldi	r25, 0x00	; 0
  206:	0e 94 94 00 	call	0x128	; 0x128 <UART_init>
 	blinkLED();
@@ -505,8 +505,8 @@ int main(void)
 				slaveSelector(0);
  290:	80 e0       	ldi	r24, 0x00	; 0
  292:	0e 94 c0 00 	call	0x180	; 0x180 <slaveSelector>
-				transmitADCvalues(0, "Selected0");
- 296:	68 e3       	ldi	r22, 0x38	; 56
+				transmitADCvalues(0, "");
+ 296:	6a e2       	ldi	r22, 0x2A	; 42
  298:	71 e0       	ldi	r23, 0x01	; 1
  29a:	80 e0       	ldi	r24, 0x00	; 0
  29c:	0e 94 0c 01 	call	0x218	; 0x218 <transmitADCvalues>
@@ -516,8 +516,8 @@ int main(void)
 				slaveSelector(1);
  2a2:	81 e0       	ldi	r24, 0x01	; 1
  2a4:	0e 94 c0 00 	call	0x180	; 0x180 <slaveSelector>
-				transmitADCvalues(0, "Selected1");
- 2a8:	62 e4       	ldi	r22, 0x42	; 66
+				transmitADCvalues(0, "");
+ 2a8:	6a e2       	ldi	r22, 0x2A	; 42
  2aa:	71 e0       	ldi	r23, 0x01	; 1
  2ac:	80 e0       	ldi	r24, 0x00	; 0
  2ae:	0e 94 0c 01 	call	0x218	; 0x218 <transmitADCvalues>
@@ -527,8 +527,8 @@ int main(void)
 				slaveSelector(2);
  2b4:	82 e0       	ldi	r24, 0x02	; 2
  2b6:	0e 94 c0 00 	call	0x180	; 0x180 <slaveSelector>
-				transmitADCvalues(0, "Selected2");
- 2ba:	6c e4       	ldi	r22, 0x4C	; 76
+				transmitADCvalues(0, "");
+ 2ba:	6a e2       	ldi	r22, 0x2A	; 42
  2bc:	71 e0       	ldi	r23, 0x01	; 1
  2be:	80 e0       	ldi	r24, 0x00	; 0
  2c0:	0e 94 0c 01 	call	0x218	; 0x218 <transmitADCvalues>
@@ -538,8 +538,8 @@ int main(void)
 				slaveSelector(3);
  2c6:	83 e0       	ldi	r24, 0x03	; 3
  2c8:	0e 94 c0 00 	call	0x180	; 0x180 <slaveSelector>
-				transmitADCvalues(0, "Selected3");
- 2cc:	66 e5       	ldi	r22, 0x56	; 86
+				transmitADCvalues(0, "");
+ 2cc:	6a e2       	ldi	r22, 0x2A	; 42
  2ce:	71 e0       	ldi	r23, 0x01	; 1
  2d0:	80 e0       	ldi	r24, 0x00	; 0
  2d2:	0e 94 0c 01 	call	0x218	; 0x218 <transmitADCvalues>
@@ -570,7 +570,7 @@ int main(void)
 				break;
 		}
 		
-		
+		//UART_putString("Sahil is Awesome :D");
 		
 		UART_putChar('\n');
  2f6:	8a e0       	ldi	r24, 0x0A	; 10

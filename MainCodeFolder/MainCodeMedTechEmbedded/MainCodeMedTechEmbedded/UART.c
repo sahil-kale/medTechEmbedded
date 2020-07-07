@@ -18,7 +18,7 @@ void UART_init(uint16_t ubrr) //takes in baud rate number
 
 	// enable the transmitter and receiver
 	UCSR0B |= (1 << RXEN0) | (1 << TXEN0);
-	_delay_ms(5000);
+	_delay_ms(3000);
 	
 	UART_putString("UART Initialized");
 	UART_putChar('\n');
