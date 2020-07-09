@@ -87,10 +87,17 @@ void init()
 void transmitADCvalues(uint8_t ADCPort, char* stringToTransmit) //does the ADC conversion, then does the conversion and sends the raw ADC value and then the stringToTransmit.
 {
 	int reading = ADCsingleRead(ADCPort);
-	char buffer[11]; //Buffer must be # of bits + 1
-	itoa(reading, buffer, 2); //convert the bits to string
-	UART_putString(buffer);
-	UART_putString(stringToTransmit);
+	UART_putChar(reading >> 8);
+	UART_putChar(reading);
+	//uint8_t adcHigh = ADCH;
+	//uint8_t adcLow = ADCL;
+	//UART_putChar(adcHigh);
+	//UART_putChar(adcLow);
+	//UART_putChar('\n');
+	//char buffer[11]; //Buffer must be # of bits + 1
+	//itoa(reading, buffer, 2); //convert the bits to string
+	//UART_putString(buffer);
+	//UART_putString(stringToTransmit);
 	
 }
 
@@ -100,6 +107,7 @@ int main(void)
 	init();	
 	//toggleBit(PORTB, PB0);
 	int counter = 0;
+	int endCounter = 4095;
 	
     /* Replace with your application code */
     while (1) 
@@ -114,15 +122,33 @@ int main(void)
 				break;
 			case '0':
 				slaveSelector(0);
-				transmitADCvalues(0, "");
+				while(counter < endCounter)
+				{
+					transmitADCvalues(0, "");
+					counter++;
+					UART_putChar('\n');
+				}
+				counter = 0;
 				break;
 			case '1':
 				slaveSelector(1);
-				transmitADCvalues(0, "");
+				while(counter < endCounter)
+				{
+					transmitADCvalues(0, "");
+					counter++;
+					UART_putChar('\n');
+				}
+				counter = 0;
 				break;
 			case '2':
 				slaveSelector(2);
-				transmitADCvalues(0, "");
+				while(counter < endCounter)
+				{
+					transmitADCvalues(0, "");
+					counter++;
+					UART_putChar('\n');
+				}
+				counter = 0;
 				break;
 			case '3':
 				slaveSelector(3);

@@ -3,29 +3,29 @@ MainCodeMedTechEmbedded.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000038  00800100  00000378  000003ec  2**0
+  0 .data         00000038  00800100  00000304  00000378  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000378  00000000  00000000  00000074  2**1
+  1 .text         00000304  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000424  2**0
+  2 .comment      00000030  00000000  00000000  000003b0  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000454  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000003e0  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000098  00000000  00000000  00000490  2**0
+  4 .debug_aranges 00000098  00000000  00000000  0000041c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000e36  00000000  00000000  00000528  2**0
+  5 .debug_info   00000d82  00000000  00000000  000004b4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 0000099d  00000000  00000000  0000135e  2**0
+  6 .debug_abbrev 00000920  00000000  00000000  00001236  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000067f  00000000  00000000  00001cfb  2**0
+  7 .debug_line   00000679  00000000  00000000  00001b56  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000104  00000000  00000000  0000237c  2**2
+  8 .debug_frame  000000f0  00000000  00000000  000021d0  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000053d  00000000  00000000  00002480  2**0
+  9 .debug_str    0000051d  00000000  00000000  000022c0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    000003e3  00000000  00000000  000029bd  2**0
+ 10 .debug_loc    0000044c  00000000  00000000  000027dd  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000068  00000000  00000000  00002da0  2**0
+ 11 .debug_ranges 00000068  00000000  00000000  00002c29  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -57,25 +57,25 @@ Disassembly of section .text:
   5c:	0c 94 5c 00 	jmp	0xb8	; 0xb8 <__bad_interrupt>
   60:	0c 94 5c 00 	jmp	0xb8	; 0xb8 <__bad_interrupt>
   64:	0c 94 5c 00 	jmp	0xb8	; 0xb8 <__bad_interrupt>
-  68:	48 01       	movw	r8, r16
-  6a:	51 01       	movw	r10, r2
-  6c:	5a 01       	movw	r10, r20
-  6e:	63 01       	movw	r12, r6
-  70:	6c 01       	movw	r12, r24
-  72:	70 01       	movw	r14, r0
-  74:	74 01       	movw	r14, r8
-  76:	78 01       	movw	r14, r16
-  78:	7b 01       	movw	r14, r22
-  7a:	7b 01       	movw	r14, r22
-  7c:	7b 01       	movw	r14, r22
-  7e:	7b 01       	movw	r14, r22
-  80:	7b 01       	movw	r14, r22
-  82:	7b 01       	movw	r14, r22
-  84:	7b 01       	movw	r14, r22
-  86:	7b 01       	movw	r14, r22
-  88:	7b 01       	movw	r14, r22
-  8a:	7b 01       	movw	r14, r22
-  8c:	41 01       	movw	r8, r2
+  68:	2e 01       	movw	r4, r28
+  6a:	3e 01       	movw	r6, r28
+  6c:	4e 01       	movw	r8, r28
+  6e:	5e 01       	movw	r10, r28
+  70:	67 01       	movw	r12, r14
+  72:	6b 01       	movw	r12, r22
+  74:	6f 01       	movw	r12, r30
+  76:	73 01       	movw	r14, r6
+  78:	76 01       	movw	r14, r12
+  7a:	76 01       	movw	r14, r12
+  7c:	76 01       	movw	r14, r12
+  7e:	76 01       	movw	r14, r12
+  80:	76 01       	movw	r14, r12
+  82:	76 01       	movw	r14, r12
+  84:	76 01       	movw	r14, r12
+  86:	76 01       	movw	r14, r12
+  88:	76 01       	movw	r14, r12
+  8a:	76 01       	movw	r14, r12
+  8c:	27 01       	movw	r4, r14
 
 0000008e <__ctors_end>:
   8e:	11 24       	eor	r1, r1
@@ -89,7 +89,7 @@ Disassembly of section .text:
   9a:	11 e0       	ldi	r17, 0x01	; 1
   9c:	a0 e0       	ldi	r26, 0x00	; 0
   9e:	b1 e0       	ldi	r27, 0x01	; 1
-  a0:	e8 e7       	ldi	r30, 0x78	; 120
+  a0:	e4 e0       	ldi	r30, 0x04	; 4
   a2:	f3 e0       	ldi	r31, 0x03	; 3
   a4:	02 c0       	rjmp	.+4      	; 0xaa <__do_copy_data+0x10>
   a6:	05 90       	lpm	r0, Z+
@@ -97,8 +97,8 @@ Disassembly of section .text:
   aa:	a8 33       	cpi	r26, 0x38	; 56
   ac:	b1 07       	cpc	r27, r17
   ae:	d9 f7       	brne	.-10     	; 0xa6 <__do_copy_data+0xc>
-  b0:	0e 94 33 01 	call	0x266	; 0x266 <main>
-  b4:	0c 94 ba 01 	jmp	0x374	; 0x374 <_exit>
+  b0:	0e 94 18 01 	call	0x230	; 0x230 <main>
+  b4:	0c 94 80 01 	jmp	0x300	; 0x300 <_exit>
 
 000000b8 <__bad_interrupt>:
   b8:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -126,9 +126,9 @@ int ADCsingleRead(uint8_t adcPort) //adcPort argument takes an integer from 0-5 
   ce:	8c 91       	ld	r24, X
   d0:	80 64       	ori	r24, 0x40	; 64
   d2:	8c 93       	st	X, r24
-	ADCSRA |= (1 << ADEN) | (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0); //Enable the ADC, divide input clock by 8 for the ADC.
+	ADCSRA |= (1 << ADEN) | (0 << ADPS2) | (1 << ADPS1) | (1<< ADPS0); //Enable the ADC, divide input clock by 8 for the ADC.
   d4:	80 81       	ld	r24, Z
-  d6:	87 68       	ori	r24, 0x87	; 135
+  d6:	83 68       	ori	r24, 0x83	; 131
   d8:	80 83       	st	Z, r24
 	ADCSRA |= (1 << ADSC); //Fire the cannon... I mean ADC
   da:	80 81       	ld	r24, Z
@@ -418,237 +418,206 @@ void init()
 
 void transmitADCvalues(uint8_t ADCPort, char* stringToTransmit) //does the ADC conversion, then does the conversion and sends the raw ADC value and then the stringToTransmit.
 {
- 218:	0f 93       	push	r16
- 21a:	1f 93       	push	r17
- 21c:	cf 93       	push	r28
- 21e:	df 93       	push	r29
- 220:	cd b7       	in	r28, 0x3d	; 61
- 222:	de b7       	in	r29, 0x3e	; 62
- 224:	2b 97       	sbiw	r28, 0x0b	; 11
- 226:	0f b6       	in	r0, 0x3f	; 63
- 228:	f8 94       	cli
- 22a:	de bf       	out	0x3e, r29	; 62
- 22c:	0f be       	out	0x3f, r0	; 63
- 22e:	cd bf       	out	0x3d, r28	; 61
- 230:	8b 01       	movw	r16, r22
+ 218:	cf 93       	push	r28
 	int reading = ADCsingleRead(ADCPort);
- 232:	0e 94 5e 00 	call	0xbc	; 0xbc <ADCsingleRead>
-    } else if (__radix < 2 || __radix > 36) {
-	*__s = 0;
-	return __s;
-    } else {
-	extern char *__itoa_ncheck (int, char *, unsigned char);
-	return __itoa_ncheck (__val, __s, __radix);
- 236:	42 e0       	ldi	r20, 0x02	; 2
- 238:	be 01       	movw	r22, r28
- 23a:	6f 5f       	subi	r22, 0xFF	; 255
- 23c:	7f 4f       	sbci	r23, 0xFF	; 255
- 23e:	0e 94 85 01 	call	0x30a	; 0x30a <__itoa_ncheck>
-	char buffer[11]; //Buffer must be # of bits + 1
-	itoa(reading, buffer, 2); //convert the bits to string
-	UART_putString(buffer);
- 242:	ce 01       	movw	r24, r28
- 244:	01 96       	adiw	r24, 0x01	; 1
- 246:	0e 94 85 00 	call	0x10a	; 0x10a <UART_putString>
-	UART_putString(stringToTransmit);
- 24a:	c8 01       	movw	r24, r16
- 24c:	0e 94 85 00 	call	0x10a	; 0x10a <UART_putString>
+ 21a:	0e 94 5e 00 	call	0xbc	; 0xbc <ADCsingleRead>
+ 21e:	c8 2f       	mov	r28, r24
+	UART_putChar(reading >> 8);
+ 220:	89 2f       	mov	r24, r25
+ 222:	0e 94 7d 00 	call	0xfa	; 0xfa <UART_putChar>
+	UART_putChar(reading);
+ 226:	8c 2f       	mov	r24, r28
+ 228:	0e 94 7d 00 	call	0xfa	; 0xfa <UART_putChar>
+	//char buffer[11]; //Buffer must be # of bits + 1
+	//itoa(reading, buffer, 2); //convert the bits to string
+	//UART_putString(buffer);
+	//UART_putString(stringToTransmit);
 	
 }
- 250:	2b 96       	adiw	r28, 0x0b	; 11
- 252:	0f b6       	in	r0, 0x3f	; 63
- 254:	f8 94       	cli
- 256:	de bf       	out	0x3e, r29	; 62
- 258:	0f be       	out	0x3f, r0	; 63
- 25a:	cd bf       	out	0x3d, r28	; 61
- 25c:	df 91       	pop	r29
- 25e:	cf 91       	pop	r28
- 260:	1f 91       	pop	r17
- 262:	0f 91       	pop	r16
- 264:	08 95       	ret
+ 22c:	cf 91       	pop	r28
+ 22e:	08 95       	ret
 
-00000266 <main>:
+00000230 <main>:
 
 int main(void)
 {
 	
 	init();	
- 266:	0e 94 01 01 	call	0x202	; 0x202 <init>
+ 230:	0e 94 01 01 	call	0x202	; 0x202 <init>
 	
     /* Replace with your application code */
     while (1) 
     {
 		
 		char receivedChar = UART_getChar();
- 26a:	0e 94 b8 00 	call	0x170	; 0x170 <UART_getChar>
+ 234:	0e 94 b8 00 	call	0x170	; 0x170 <UART_getChar>
 		switch(receivedChar) //massive switch case for commands
- 26e:	90 e0       	ldi	r25, 0x00	; 0
- 270:	fc 01       	movw	r30, r24
- 272:	f0 97       	sbiw	r30, 0x30	; 48
- 274:	e3 31       	cpi	r30, 0x13	; 19
- 276:	f1 05       	cpc	r31, r1
- 278:	f0 f5       	brcc	.+124    	; 0x2f6 <main+0x90>
- 27a:	ec 5c       	subi	r30, 0xCC	; 204
- 27c:	ff 4f       	sbci	r31, 0xFF	; 255
- 27e:	0c 94 7f 01 	jmp	0x2fe	; 0x2fe <__tablejump2__>
+ 238:	90 e0       	ldi	r25, 0x00	; 0
+ 23a:	fc 01       	movw	r30, r24
+ 23c:	f0 97       	sbiw	r30, 0x30	; 48
+ 23e:	e3 31       	cpi	r30, 0x13	; 19
+ 240:	f1 05       	cpc	r31, r1
+ 242:	08 f0       	brcs	.+2      	; 0x246 <main+0x16>
+ 244:	53 c0       	rjmp	.+166    	; 0x2ec <main+0xbc>
+ 246:	ec 5c       	subi	r30, 0xCC	; 204
+ 248:	ff 4f       	sbci	r31, 0xFF	; 255
+ 24a:	0c 94 7a 01 	jmp	0x2f4	; 0x2f4 <__tablejump2__>
 		{
 			case 'B': //blink code
 				UART_putString("Blinking LED");
- 282:	8b e2       	ldi	r24, 0x2B	; 43
- 284:	91 e0       	ldi	r25, 0x01	; 1
- 286:	0e 94 85 00 	call	0x10a	; 0x10a <UART_putString>
+ 24e:	8b e2       	ldi	r24, 0x2B	; 43
+ 250:	91 e0       	ldi	r25, 0x01	; 1
+ 252:	0e 94 85 00 	call	0x10a	; 0x10a <UART_putString>
 				blinkLED();
- 28a:	0e 94 e6 00 	call	0x1cc	; 0x1cc <blinkLED>
+ 256:	0e 94 e6 00 	call	0x1cc	; 0x1cc <blinkLED>
 				break;
- 28e:	33 c0       	rjmp	.+102    	; 0x2f6 <main+0x90>
+ 25a:	48 c0       	rjmp	.+144    	; 0x2ec <main+0xbc>
 			case '0':
 				slaveSelector(0);
- 290:	80 e0       	ldi	r24, 0x00	; 0
- 292:	0e 94 c0 00 	call	0x180	; 0x180 <slaveSelector>
-				transmitADCvalues(0, "");
- 296:	6a e2       	ldi	r22, 0x2A	; 42
- 298:	71 e0       	ldi	r23, 0x01	; 1
- 29a:	80 e0       	ldi	r24, 0x00	; 0
- 29c:	0e 94 0c 01 	call	0x218	; 0x218 <transmitADCvalues>
+ 25c:	80 e0       	ldi	r24, 0x00	; 0
+ 25e:	0e 94 c0 00 	call	0x180	; 0x180 <slaveSelector>
+ 262:	cf ef       	ldi	r28, 0xFF	; 255
+ 264:	df e0       	ldi	r29, 0x0F	; 15
+				while(counter < endCounter)
+				{
+					transmitADCvalues(0, "");
+ 266:	6a e2       	ldi	r22, 0x2A	; 42
+ 268:	71 e0       	ldi	r23, 0x01	; 1
+ 26a:	80 e0       	ldi	r24, 0x00	; 0
+ 26c:	0e 94 0c 01 	call	0x218	; 0x218 <transmitADCvalues>
+					counter++;
+					UART_putChar('\n');
+ 270:	8a e0       	ldi	r24, 0x0A	; 10
+ 272:	0e 94 7d 00 	call	0xfa	; 0xfa <UART_putChar>
+ 276:	21 97       	sbiw	r28, 0x01	; 1
+				UART_putString("Blinking LED");
+				blinkLED();
 				break;
- 2a0:	2a c0       	rjmp	.+84     	; 0x2f6 <main+0x90>
+			case '0':
+				slaveSelector(0);
+				while(counter < endCounter)
+ 278:	b1 f7       	brne	.-20     	; 0x266 <main+0x36>
+ 27a:	38 c0       	rjmp	.+112    	; 0x2ec <main+0xbc>
+					UART_putChar('\n');
+				}
+				counter = 0;
+				break;
 			case '1':
 				slaveSelector(1);
- 2a2:	81 e0       	ldi	r24, 0x01	; 1
- 2a4:	0e 94 c0 00 	call	0x180	; 0x180 <slaveSelector>
-				transmitADCvalues(0, "");
- 2a8:	6a e2       	ldi	r22, 0x2A	; 42
- 2aa:	71 e0       	ldi	r23, 0x01	; 1
- 2ac:	80 e0       	ldi	r24, 0x00	; 0
- 2ae:	0e 94 0c 01 	call	0x218	; 0x218 <transmitADCvalues>
+ 27c:	81 e0       	ldi	r24, 0x01	; 1
+ 27e:	0e 94 c0 00 	call	0x180	; 0x180 <slaveSelector>
+ 282:	cf ef       	ldi	r28, 0xFF	; 255
+ 284:	df e0       	ldi	r29, 0x0F	; 15
+				while(counter < endCounter)
+				{
+					transmitADCvalues(0, "");
+ 286:	6a e2       	ldi	r22, 0x2A	; 42
+ 288:	71 e0       	ldi	r23, 0x01	; 1
+ 28a:	80 e0       	ldi	r24, 0x00	; 0
+ 28c:	0e 94 0c 01 	call	0x218	; 0x218 <transmitADCvalues>
+					counter++;
+					UART_putChar('\n');
+ 290:	8a e0       	ldi	r24, 0x0A	; 10
+ 292:	0e 94 7d 00 	call	0xfa	; 0xfa <UART_putChar>
+ 296:	21 97       	sbiw	r28, 0x01	; 1
+				}
+				counter = 0;
 				break;
- 2b2:	21 c0       	rjmp	.+66     	; 0x2f6 <main+0x90>
+			case '1':
+				slaveSelector(1);
+				while(counter < endCounter)
+ 298:	b1 f7       	brne	.-20     	; 0x286 <main+0x56>
+ 29a:	28 c0       	rjmp	.+80     	; 0x2ec <main+0xbc>
+					UART_putChar('\n');
+				}
+				counter = 0;
+				break;
 			case '2':
 				slaveSelector(2);
- 2b4:	82 e0       	ldi	r24, 0x02	; 2
- 2b6:	0e 94 c0 00 	call	0x180	; 0x180 <slaveSelector>
-				transmitADCvalues(0, "");
- 2ba:	6a e2       	ldi	r22, 0x2A	; 42
- 2bc:	71 e0       	ldi	r23, 0x01	; 1
- 2be:	80 e0       	ldi	r24, 0x00	; 0
- 2c0:	0e 94 0c 01 	call	0x218	; 0x218 <transmitADCvalues>
+ 29c:	82 e0       	ldi	r24, 0x02	; 2
+ 29e:	0e 94 c0 00 	call	0x180	; 0x180 <slaveSelector>
+ 2a2:	cf ef       	ldi	r28, 0xFF	; 255
+ 2a4:	df e0       	ldi	r29, 0x0F	; 15
+				while(counter < endCounter)
+				{
+					transmitADCvalues(0, "");
+ 2a6:	6a e2       	ldi	r22, 0x2A	; 42
+ 2a8:	71 e0       	ldi	r23, 0x01	; 1
+ 2aa:	80 e0       	ldi	r24, 0x00	; 0
+ 2ac:	0e 94 0c 01 	call	0x218	; 0x218 <transmitADCvalues>
+					counter++;
+					UART_putChar('\n');
+ 2b0:	8a e0       	ldi	r24, 0x0A	; 10
+ 2b2:	0e 94 7d 00 	call	0xfa	; 0xfa <UART_putChar>
+ 2b6:	21 97       	sbiw	r28, 0x01	; 1
+				}
+				counter = 0;
 				break;
- 2c4:	18 c0       	rjmp	.+48     	; 0x2f6 <main+0x90>
+			case '2':
+				slaveSelector(2);
+				while(counter < endCounter)
+ 2b8:	b1 f7       	brne	.-20     	; 0x2a6 <main+0x76>
+ 2ba:	18 c0       	rjmp	.+48     	; 0x2ec <main+0xbc>
+					UART_putChar('\n');
+				}
+				counter = 0;
+				break;
 			case '3':
 				slaveSelector(3);
- 2c6:	83 e0       	ldi	r24, 0x03	; 3
- 2c8:	0e 94 c0 00 	call	0x180	; 0x180 <slaveSelector>
+ 2bc:	83 e0       	ldi	r24, 0x03	; 3
+ 2be:	0e 94 c0 00 	call	0x180	; 0x180 <slaveSelector>
 				transmitADCvalues(0, "");
- 2cc:	6a e2       	ldi	r22, 0x2A	; 42
- 2ce:	71 e0       	ldi	r23, 0x01	; 1
- 2d0:	80 e0       	ldi	r24, 0x00	; 0
- 2d2:	0e 94 0c 01 	call	0x218	; 0x218 <transmitADCvalues>
+ 2c2:	6a e2       	ldi	r22, 0x2A	; 42
+ 2c4:	71 e0       	ldi	r23, 0x01	; 1
+ 2c6:	80 e0       	ldi	r24, 0x00	; 0
+ 2c8:	0e 94 0c 01 	call	0x218	; 0x218 <transmitADCvalues>
 				break;
- 2d6:	0f c0       	rjmp	.+30     	; 0x2f6 <main+0x90>
+ 2cc:	0f c0       	rjmp	.+30     	; 0x2ec <main+0xbc>
 			case '4':
 				slaveSelector(4);
- 2d8:	84 e0       	ldi	r24, 0x04	; 4
- 2da:	0e 94 c0 00 	call	0x180	; 0x180 <slaveSelector>
+ 2ce:	84 e0       	ldi	r24, 0x04	; 4
+ 2d0:	0e 94 c0 00 	call	0x180	; 0x180 <slaveSelector>
 				break;
- 2de:	0b c0       	rjmp	.+22     	; 0x2f6 <main+0x90>
+ 2d4:	0b c0       	rjmp	.+22     	; 0x2ec <main+0xbc>
 			case '5':
 				slaveSelector(5);
- 2e0:	85 e0       	ldi	r24, 0x05	; 5
- 2e2:	0e 94 c0 00 	call	0x180	; 0x180 <slaveSelector>
+ 2d6:	85 e0       	ldi	r24, 0x05	; 5
+ 2d8:	0e 94 c0 00 	call	0x180	; 0x180 <slaveSelector>
 				break;
- 2e6:	07 c0       	rjmp	.+14     	; 0x2f6 <main+0x90>
+ 2dc:	07 c0       	rjmp	.+14     	; 0x2ec <main+0xbc>
 			case '6':
 				slaveSelector(6);
- 2e8:	86 e0       	ldi	r24, 0x06	; 6
- 2ea:	0e 94 c0 00 	call	0x180	; 0x180 <slaveSelector>
+ 2de:	86 e0       	ldi	r24, 0x06	; 6
+ 2e0:	0e 94 c0 00 	call	0x180	; 0x180 <slaveSelector>
 				break;
- 2ee:	03 c0       	rjmp	.+6      	; 0x2f6 <main+0x90>
+ 2e4:	03 c0       	rjmp	.+6      	; 0x2ec <main+0xbc>
 			case '7':
 				slaveSelector(7);
- 2f0:	87 e0       	ldi	r24, 0x07	; 7
- 2f2:	0e 94 c0 00 	call	0x180	; 0x180 <slaveSelector>
+ 2e6:	87 e0       	ldi	r24, 0x07	; 7
+ 2e8:	0e 94 c0 00 	call	0x180	; 0x180 <slaveSelector>
 				break;
 		}
 		
 		//UART_putString("Sahil is Awesome :D");
 		
 		UART_putChar('\n');
- 2f6:	8a e0       	ldi	r24, 0x0A	; 10
- 2f8:	0e 94 7d 00 	call	0xfa	; 0xfa <UART_putChar>
+ 2ec:	8a e0       	ldi	r24, 0x0A	; 10
+ 2ee:	0e 94 7d 00 	call	0xfa	; 0xfa <UART_putChar>
 		
 		
     }
- 2fc:	b6 cf       	rjmp	.-148    	; 0x26a <main+0x4>
+ 2f2:	a0 cf       	rjmp	.-192    	; 0x234 <main+0x4>
 
-000002fe <__tablejump2__>:
- 2fe:	ee 0f       	add	r30, r30
- 300:	ff 1f       	adc	r31, r31
- 302:	05 90       	lpm	r0, Z+
- 304:	f4 91       	lpm	r31, Z
- 306:	e0 2d       	mov	r30, r0
- 308:	09 94       	ijmp
+000002f4 <__tablejump2__>:
+ 2f4:	ee 0f       	add	r30, r30
+ 2f6:	ff 1f       	adc	r31, r31
+ 2f8:	05 90       	lpm	r0, Z+
+ 2fa:	f4 91       	lpm	r31, Z
+ 2fc:	e0 2d       	mov	r30, r0
+ 2fe:	09 94       	ijmp
 
-0000030a <__itoa_ncheck>:
- 30a:	bb 27       	eor	r27, r27
- 30c:	4a 30       	cpi	r20, 0x0A	; 10
- 30e:	31 f4       	brne	.+12     	; 0x31c <__itoa_ncheck+0x12>
- 310:	99 23       	and	r25, r25
- 312:	22 f4       	brpl	.+8      	; 0x31c <__itoa_ncheck+0x12>
- 314:	bd e2       	ldi	r27, 0x2D	; 45
- 316:	90 95       	com	r25
- 318:	81 95       	neg	r24
- 31a:	9f 4f       	sbci	r25, 0xFF	; 255
- 31c:	0c 94 91 01 	jmp	0x322	; 0x322 <__utoa_common>
+00000300 <_exit>:
+ 300:	f8 94       	cli
 
-00000320 <__utoa_ncheck>:
- 320:	bb 27       	eor	r27, r27
-
-00000322 <__utoa_common>:
- 322:	fb 01       	movw	r30, r22
- 324:	55 27       	eor	r21, r21
- 326:	aa 27       	eor	r26, r26
- 328:	88 0f       	add	r24, r24
- 32a:	99 1f       	adc	r25, r25
- 32c:	aa 1f       	adc	r26, r26
- 32e:	a4 17       	cp	r26, r20
- 330:	10 f0       	brcs	.+4      	; 0x336 <__utoa_common+0x14>
- 332:	a4 1b       	sub	r26, r20
- 334:	83 95       	inc	r24
- 336:	50 51       	subi	r21, 0x10	; 16
- 338:	b9 f7       	brne	.-18     	; 0x328 <__utoa_common+0x6>
- 33a:	a0 5d       	subi	r26, 0xD0	; 208
- 33c:	aa 33       	cpi	r26, 0x3A	; 58
- 33e:	08 f0       	brcs	.+2      	; 0x342 <__utoa_common+0x20>
- 340:	a9 5d       	subi	r26, 0xD9	; 217
- 342:	a1 93       	st	Z+, r26
- 344:	00 97       	sbiw	r24, 0x00	; 0
- 346:	79 f7       	brne	.-34     	; 0x326 <__utoa_common+0x4>
- 348:	b1 11       	cpse	r27, r1
- 34a:	b1 93       	st	Z+, r27
- 34c:	11 92       	st	Z+, r1
- 34e:	cb 01       	movw	r24, r22
- 350:	0c 94 aa 01 	jmp	0x354	; 0x354 <strrev>
-
-00000354 <strrev>:
- 354:	dc 01       	movw	r26, r24
- 356:	fc 01       	movw	r30, r24
- 358:	67 2f       	mov	r22, r23
- 35a:	71 91       	ld	r23, Z+
- 35c:	77 23       	and	r23, r23
- 35e:	e1 f7       	brne	.-8      	; 0x358 <strrev+0x4>
- 360:	32 97       	sbiw	r30, 0x02	; 2
- 362:	04 c0       	rjmp	.+8      	; 0x36c <strrev+0x18>
- 364:	7c 91       	ld	r23, X
- 366:	6d 93       	st	X+, r22
- 368:	70 83       	st	Z, r23
- 36a:	62 91       	ld	r22, -Z
- 36c:	ae 17       	cp	r26, r30
- 36e:	bf 07       	cpc	r27, r31
- 370:	c8 f3       	brcs	.-14     	; 0x364 <strrev+0x10>
- 372:	08 95       	ret
-
-00000374 <_exit>:
- 374:	f8 94       	cli
-
-00000376 <__stop_program>:
- 376:	ff cf       	rjmp	.-2      	; 0x376 <__stop_program>
+00000302 <__stop_program>:
+ 302:	ff cf       	rjmp	.-2      	; 0x302 <__stop_program>
