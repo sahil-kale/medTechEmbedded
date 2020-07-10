@@ -120,13 +120,16 @@ int main(void)
 				UART_putString("Blinking LED");
 				blinkLED();
 				break;
+			case 'T': //temperature code
+				transmitADCvalues(0, "");
+				break;
 			case '0':
 				slaveSelector(0);
 				while(counter < endCounter)
 				{
 					transmitADCvalues(0, "");
 					counter++;
-					UART_putChar('\n');
+					//UART_putChar('\n');
 				}
 				counter = 0;
 				break;
@@ -136,7 +139,7 @@ int main(void)
 				{
 					transmitADCvalues(0, "");
 					counter++;
-					UART_putChar('\n');
+					//UART_putChar('\n');
 				}
 				counter = 0;
 				break;
@@ -146,7 +149,7 @@ int main(void)
 				{
 					transmitADCvalues(0, "");
 					counter++;
-					UART_putChar('\n');
+					//UART_putChar('\n');
 				}
 				counter = 0;
 				break;
