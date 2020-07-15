@@ -23,12 +23,12 @@ void slaveSelector(uint8_t slaveSelectNumber) //Number between 0-7
 	//Acquire the individual bits for the slaveSelect byte
 	bool firstBit = isBitSet(slaveSelectNumber, 0);
 	bool secondBit = isBitSet(slaveSelectNumber, 1);
-	bool thirdBit = isBitSet(slaveSelectNumber, 2);
+	//bool thirdBit = isBitSet(slaveSelectNumber, 2);
 	
 	//Acquire the current state of the bits in PORT B
 	bool pin1State = isBitSet(PORTB, PB0);
 	bool pin2State = isBitSet(PORTB, PB1);
-	bool pin3State = isBitSet(PORTB, PB2);
+	//bool pin3State = isBitSet(PORTB, PB2);
 	
 	//Debugging code for Dhananjay to ensure that the appropriate slave select is set
 	/*
@@ -56,22 +56,22 @@ void slaveSelector(uint8_t slaveSelectNumber) //Number between 0-7
 	{
 		toggleBit(PORTB, PB1);
 	}
-	
+	/*
 	if(!(thirdBit == pin3State))
 	{
 		toggleBit(PORTB, PB2);
 	}
-	
+	*/
 	
 }
 
 
 void blinkLED() //blinks the led. Ports are hardcoded.
 {
-	DDRB |= 0b00001000;	
-	toggleBit(PORTB, PB3);
+	DDRB |= 0b00000100;	
+	toggleBit(PORTB, PB2);
 	_delay_ms(500);
-	toggleBit(PORTB, PB3);
+	toggleBit(PORTB, PB2);
 	_delay_ms(500);
 }
 
@@ -80,17 +80,15 @@ void init()
 	unsigned int ubrr = baudRate;
 	UART_init(ubrr);
 	blinkLED();
-	toggleBit(PORTB, PB3);
+	toggleBit(PORTB, PB2);
 	
 }
 
 void transmitADCvalues(uint8_t ADCPort, char* stringToTransmit) //does the ADC conversion, then does the conversion and sends the raw ADC value and then the stringToTransmit.
 {
 	int reading = ADCsingleRead(ADCPort);
-	char buffer[11]; //Buffer must be # of bits + 1
-	itoa(reading, buffer, 2); //convert the bits to string
-	UART_putString(buffer);
-	UART_putString(stringToTransmit);
+	UART_putChar(reading >> 8); //Write the 2 bits in the "high" register
+	UART_putChar(reading); //write the remaining 8 bits
 	
 }
 
@@ -100,6 +98,7 @@ int main(void)
 	init();	
 	//toggleBit(PORTB, PB0);
 	int counter = 0;
+	int endCounter = 4095;
 	
     /* Replace with your application code */
     while (1) 
@@ -118,15 +117,30 @@ int main(void)
 				break;
 			case '1':
 				slaveSelector(1);
-				transmitADCvalues(0, "");
+				while(counter < endCounter)
+				{
+					transmitADCvalues(0, "");
+					counter++;
+				}
+				counter = 0;
 				break;
 			case '2':
 				slaveSelector(2);
-				transmitADCvalues(0, "");
+				while(counter < endCounter)
+				{
+					transmitADCvalues(0, "");
+					counter++;
+				}
+				counter = 0;
 				break;
 			case '3':
 				slaveSelector(3);
-				transmitADCvalues(0, "");
+				while(counter < endCounter)
+				{
+					transmitADCvalues(0, "");
+					counter++;
+				}
+				counter = 0;
 				break;
 			case '4':
 				slaveSelector(4);
@@ -144,7 +158,6 @@ int main(void)
 				break;
 		}
 		
-		//UART_putString("Sahil is Awesome :D");
 		
 		UART_putChar('\n');
 		
