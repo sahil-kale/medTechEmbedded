@@ -142,17 +142,6 @@ int main(void)
 				}
 				counter = 0;
 				break;
-			case '4':
-				slaveSelector(4);
-				break;
-			case '5':
-				slaveSelector(5);
-				break;
-			case '6':
-				slaveSelector(6);
-				break;
-			case '7':
-				slaveSelector(7);
 			default:
 				//UART_putString("Donkey");
 				break;
