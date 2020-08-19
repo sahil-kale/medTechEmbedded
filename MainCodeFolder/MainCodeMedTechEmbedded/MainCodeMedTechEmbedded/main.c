@@ -142,6 +142,10 @@ int main(void)
 				}
 				counter = 0;
 				break;
+			case 'T':
+				slaveSelector(0);
+				UART_putString("Sahil is Awesome :D");
+				break;
 			default:
 				//UART_putString("Donkey");
 				break;

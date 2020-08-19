@@ -3,29 +3,29 @@ MainCodeMedTechEmbedded.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000038  00800100  00000288  000002fc  2**0
+  0 .data         0000004c  00800100  000002a0  00000314  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000288  00000000  00000000  00000074  2**1
+  1 .text         000002a0  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000334  2**0
+  2 .comment      00000030  00000000  00000000  00000360  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000364  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000390  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000098  00000000  00000000  000003a0  2**0
+  4 .debug_aranges 00000098  00000000  00000000  000003cc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000ce1  00000000  00000000  00000438  2**0
+  5 .debug_info   00000d10  00000000  00000000  00000464  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000920  00000000  00000000  00001119  2**0
+  6 .debug_abbrev 00000920  00000000  00000000  00001174  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   00000625  00000000  00000000  00001a39  2**0
+  7 .debug_line   00000631  00000000  00000000  00001a94  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  000000f0  00000000  00000000  00002060  2**2
+  8 .debug_frame  000000f0  00000000  00000000  000020c8  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000057b  00000000  00000000  00002150  2**0
+  9 .debug_str    0000057b  00000000  00000000  000021b8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    0000040d  00000000  00000000  000026cb  2**0
+ 10 .debug_loc    00000418  00000000  00000000  00002733  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000068  00000000  00000000  00002ad8  2**0
+ 11 .debug_ranges 00000068  00000000  00000000  00002b4b  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -70,16 +70,16 @@ Disassembly of section .text:
   74:	11 e0       	ldi	r17, 0x01	; 1
   76:	a0 e0       	ldi	r26, 0x00	; 0
   78:	b1 e0       	ldi	r27, 0x01	; 1
-  7a:	e8 e8       	ldi	r30, 0x88	; 136
+  7a:	e0 ea       	ldi	r30, 0xA0	; 160
   7c:	f2 e0       	ldi	r31, 0x02	; 2
   7e:	02 c0       	rjmp	.+4      	; 0x84 <__do_copy_data+0x10>
   80:	05 90       	lpm	r0, Z+
   82:	0d 92       	st	X+, r0
-  84:	a8 33       	cpi	r26, 0x38	; 56
+  84:	ac 34       	cpi	r26, 0x4C	; 76
   86:	b1 07       	cpc	r27, r17
   88:	d9 f7       	brne	.-10     	; 0x80 <__do_copy_data+0xc>
   8a:	0e 94 f8 00 	call	0x1f0	; 0x1f0 <main>
-  8e:	0c 94 42 01 	jmp	0x284	; 0x284 <_exit>
+  8e:	0c 94 4e 01 	jmp	0x29c	; 0x29c <_exit>
 
 00000092 <__bad_interrupt>:
   92:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -356,126 +356,143 @@ int main(void)
  1f4:	0e 94 a5 00 	call	0x14a	; 0x14a <UART_getChar>
 		switch(receivedChar) //massive switch case for commands
  1f8:	82 33       	cpi	r24, 0x32	; 50
- 1fa:	39 f1       	breq	.+78     	; 0x24a <main+0x5a>
+ 1fa:	59 f1       	breq	.+86     	; 0x252 <main+0x62>
  1fc:	28 f4       	brcc	.+10     	; 0x208 <main+0x18>
  1fe:	80 33       	cpi	r24, 0x30	; 48
- 200:	71 f0       	breq	.+28     	; 0x21e <main+0x2e>
+ 200:	91 f0       	breq	.+36     	; 0x226 <main+0x36>
  202:	81 33       	cpi	r24, 0x31	; 49
- 204:	a9 f0       	breq	.+42     	; 0x230 <main+0x40>
- 206:	3a c0       	rjmp	.+116    	; 0x27c <main+0x8c>
- 208:	83 33       	cpi	r24, 0x33	; 51
- 20a:	61 f1       	breq	.+88     	; 0x264 <main+0x74>
- 20c:	82 34       	cpi	r24, 0x42	; 66
- 20e:	b1 f5       	brne	.+108    	; 0x27c <main+0x8c>
+ 204:	c9 f0       	breq	.+50     	; 0x238 <main+0x48>
+ 206:	46 c0       	rjmp	.+140    	; 0x294 <main+0xa4>
+ 208:	82 34       	cpi	r24, 0x42	; 66
+ 20a:	31 f0       	breq	.+12     	; 0x218 <main+0x28>
+ 20c:	84 35       	cpi	r24, 0x54	; 84
+ 20e:	d9 f1       	breq	.+118    	; 0x286 <main+0x96>
+ 210:	83 33       	cpi	r24, 0x33	; 51
+ 212:	09 f0       	breq	.+2      	; 0x216 <main+0x26>
+ 214:	3f c0       	rjmp	.+126    	; 0x294 <main+0xa4>
+ 216:	2a c0       	rjmp	.+84     	; 0x26c <main+0x7c>
 		{
 			case 'B': //blink code
 				UART_putString("Blinking LED");
- 210:	8b e2       	ldi	r24, 0x2B	; 43
- 212:	91 e0       	ldi	r25, 0x01	; 1
- 214:	0e 94 72 00 	call	0xe4	; 0xe4 <UART_putString>
+ 218:	8b e2       	ldi	r24, 0x2B	; 43
+ 21a:	91 e0       	ldi	r25, 0x01	; 1
+ 21c:	0e 94 72 00 	call	0xe4	; 0xe4 <UART_putString>
 				blinkLED();
- 218:	0e 94 c6 00 	call	0x18c	; 0x18c <blinkLED>
+ 220:	0e 94 c6 00 	call	0x18c	; 0x18c <blinkLED>
 				break;
- 21c:	2f c0       	rjmp	.+94     	; 0x27c <main+0x8c>
+ 224:	37 c0       	rjmp	.+110    	; 0x294 <main+0xa4>
 			case '0':
 				slaveSelector(0);
- 21e:	80 e0       	ldi	r24, 0x00	; 0
- 220:	0e 94 ad 00 	call	0x15a	; 0x15a <slaveSelector>
+ 226:	80 e0       	ldi	r24, 0x00	; 0
+ 228:	0e 94 ad 00 	call	0x15a	; 0x15a <slaveSelector>
 				transmitADCvalues(0, "");
- 224:	6a e2       	ldi	r22, 0x2A	; 42
- 226:	71 e0       	ldi	r23, 0x01	; 1
- 228:	80 e0       	ldi	r24, 0x00	; 0
- 22a:	0e 94 ec 00 	call	0x1d8	; 0x1d8 <transmitADCvalues>
+ 22c:	6a e2       	ldi	r22, 0x2A	; 42
+ 22e:	71 e0       	ldi	r23, 0x01	; 1
+ 230:	80 e0       	ldi	r24, 0x00	; 0
+ 232:	0e 94 ec 00 	call	0x1d8	; 0x1d8 <transmitADCvalues>
 				break;
- 22e:	26 c0       	rjmp	.+76     	; 0x27c <main+0x8c>
+ 236:	2e c0       	rjmp	.+92     	; 0x294 <main+0xa4>
 			case '1':
 				slaveSelector(1);
- 230:	81 e0       	ldi	r24, 0x01	; 1
- 232:	0e 94 ad 00 	call	0x15a	; 0x15a <slaveSelector>
- 236:	cf ef       	ldi	r28, 0xFF	; 255
- 238:	df e0       	ldi	r29, 0x0F	; 15
+ 238:	81 e0       	ldi	r24, 0x01	; 1
+ 23a:	0e 94 ad 00 	call	0x15a	; 0x15a <slaveSelector>
+ 23e:	cf ef       	ldi	r28, 0xFF	; 255
+ 240:	df e0       	ldi	r29, 0x0F	; 15
 				while(counter < endCounter)
 				{
 					transmitADCvalues(0, "");
- 23a:	6a e2       	ldi	r22, 0x2A	; 42
- 23c:	71 e0       	ldi	r23, 0x01	; 1
- 23e:	80 e0       	ldi	r24, 0x00	; 0
- 240:	0e 94 ec 00 	call	0x1d8	; 0x1d8 <transmitADCvalues>
- 244:	21 97       	sbiw	r28, 0x01	; 1
+ 242:	6a e2       	ldi	r22, 0x2A	; 42
+ 244:	71 e0       	ldi	r23, 0x01	; 1
+ 246:	80 e0       	ldi	r24, 0x00	; 0
+ 248:	0e 94 ec 00 	call	0x1d8	; 0x1d8 <transmitADCvalues>
+ 24c:	21 97       	sbiw	r28, 0x01	; 1
 				slaveSelector(0);
 				transmitADCvalues(0, "");
 				break;
 			case '1':
 				slaveSelector(1);
 				while(counter < endCounter)
- 246:	c9 f7       	brne	.-14     	; 0x23a <main+0x4a>
- 248:	19 c0       	rjmp	.+50     	; 0x27c <main+0x8c>
+ 24e:	c9 f7       	brne	.-14     	; 0x242 <main+0x52>
+ 250:	21 c0       	rjmp	.+66     	; 0x294 <main+0xa4>
 					counter++;
 				}
 				counter = 0;
 				break;
 			case '2':
 				slaveSelector(2);
- 24a:	82 e0       	ldi	r24, 0x02	; 2
- 24c:	0e 94 ad 00 	call	0x15a	; 0x15a <slaveSelector>
- 250:	cf ef       	ldi	r28, 0xFF	; 255
- 252:	df e0       	ldi	r29, 0x0F	; 15
+ 252:	82 e0       	ldi	r24, 0x02	; 2
+ 254:	0e 94 ad 00 	call	0x15a	; 0x15a <slaveSelector>
+ 258:	cf ef       	ldi	r28, 0xFF	; 255
+ 25a:	df e0       	ldi	r29, 0x0F	; 15
 				while(counter < endCounter)
 				{
 					transmitADCvalues(0, "");
- 254:	6a e2       	ldi	r22, 0x2A	; 42
- 256:	71 e0       	ldi	r23, 0x01	; 1
- 258:	80 e0       	ldi	r24, 0x00	; 0
- 25a:	0e 94 ec 00 	call	0x1d8	; 0x1d8 <transmitADCvalues>
- 25e:	21 97       	sbiw	r28, 0x01	; 1
+ 25c:	6a e2       	ldi	r22, 0x2A	; 42
+ 25e:	71 e0       	ldi	r23, 0x01	; 1
+ 260:	80 e0       	ldi	r24, 0x00	; 0
+ 262:	0e 94 ec 00 	call	0x1d8	; 0x1d8 <transmitADCvalues>
+ 266:	21 97       	sbiw	r28, 0x01	; 1
 				}
 				counter = 0;
 				break;
 			case '2':
 				slaveSelector(2);
 				while(counter < endCounter)
- 260:	c9 f7       	brne	.-14     	; 0x254 <main+0x64>
- 262:	0c c0       	rjmp	.+24     	; 0x27c <main+0x8c>
+ 268:	c9 f7       	brne	.-14     	; 0x25c <main+0x6c>
+ 26a:	14 c0       	rjmp	.+40     	; 0x294 <main+0xa4>
 					counter++;
 				}
 				counter = 0;
 				break;
 			case '3':
 				slaveSelector(3);
- 264:	83 e0       	ldi	r24, 0x03	; 3
- 266:	0e 94 ad 00 	call	0x15a	; 0x15a <slaveSelector>
- 26a:	cf ef       	ldi	r28, 0xFF	; 255
- 26c:	df e0       	ldi	r29, 0x0F	; 15
+ 26c:	83 e0       	ldi	r24, 0x03	; 3
+ 26e:	0e 94 ad 00 	call	0x15a	; 0x15a <slaveSelector>
+ 272:	cf ef       	ldi	r28, 0xFF	; 255
+ 274:	df e0       	ldi	r29, 0x0F	; 15
 				while(counter < endCounter)
 				{
 					transmitADCvalues(0, "");
- 26e:	6a e2       	ldi	r22, 0x2A	; 42
- 270:	71 e0       	ldi	r23, 0x01	; 1
- 272:	80 e0       	ldi	r24, 0x00	; 0
- 274:	0e 94 ec 00 	call	0x1d8	; 0x1d8 <transmitADCvalues>
- 278:	21 97       	sbiw	r28, 0x01	; 1
+ 276:	6a e2       	ldi	r22, 0x2A	; 42
+ 278:	71 e0       	ldi	r23, 0x01	; 1
+ 27a:	80 e0       	ldi	r24, 0x00	; 0
+ 27c:	0e 94 ec 00 	call	0x1d8	; 0x1d8 <transmitADCvalues>
+ 280:	21 97       	sbiw	r28, 0x01	; 1
 				}
 				counter = 0;
 				break;
 			case '3':
 				slaveSelector(3);
 				while(counter < endCounter)
- 27a:	c9 f7       	brne	.-14     	; 0x26e <main+0x7e>
+ 282:	c9 f7       	brne	.-14     	; 0x276 <main+0x86>
+ 284:	07 c0       	rjmp	.+14     	; 0x294 <main+0xa4>
+					counter++;
+				}
+				counter = 0;
+				break;
+			case 'T':
+				slaveSelector(0);
+ 286:	80 e0       	ldi	r24, 0x00	; 0
+ 288:	0e 94 ad 00 	call	0x15a	; 0x15a <slaveSelector>
+				UART_putString("Sahil is Awesome :D");
+ 28c:	88 e3       	ldi	r24, 0x38	; 56
+ 28e:	91 e0       	ldi	r25, 0x01	; 1
+ 290:	0e 94 72 00 	call	0xe4	; 0xe4 <UART_putString>
 				//UART_putString("Donkey");
 				break;
 		}
 		
 		
 		UART_putChar('\n');
- 27c:	8a e0       	ldi	r24, 0x0A	; 10
- 27e:	0e 94 6a 00 	call	0xd4	; 0xd4 <UART_putChar>
+ 294:	8a e0       	ldi	r24, 0x0A	; 10
+ 296:	0e 94 6a 00 	call	0xd4	; 0xd4 <UART_putChar>
 		
 		
     }
- 282:	b8 cf       	rjmp	.-144    	; 0x1f4 <main+0x4>
+ 29a:	ac cf       	rjmp	.-168    	; 0x1f4 <main+0x4>
 
-00000284 <_exit>:
- 284:	f8 94       	cli
+0000029c <_exit>:
+ 29c:	f8 94       	cli
 
-00000286 <__stop_program>:
- 286:	ff cf       	rjmp	.-2      	; 0x286 <__stop_program>
+0000029e <__stop_program>:
+ 29e:	ff cf       	rjmp	.-2      	; 0x29e <__stop_program>
