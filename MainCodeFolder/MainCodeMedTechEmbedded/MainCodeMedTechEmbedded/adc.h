@@ -2,7 +2,7 @@
  * adc.h
  *
  * Created: 6/12/2020 23:22:58
- *  Author: sahil
+ *  Author: sahil k
  */ 
 
 #include "mainInclude.h"
