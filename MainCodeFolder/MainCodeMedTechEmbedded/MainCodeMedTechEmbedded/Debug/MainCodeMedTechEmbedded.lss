@@ -3,29 +3,29 @@ MainCodeMedTechEmbedded.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         0000004c  00800100  000002a0  00000314  2**0
+  0 .data         0000003c  00800100  000002a0  00000314  2**0
                   CONTENTS, ALLOC, LOAD, DATA
   1 .text         000002a0  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000360  2**0
+  2 .comment      00000030  00000000  00000000  00000350  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000390  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000380  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000098  00000000  00000000  000003cc  2**0
+  4 .debug_aranges 00000098  00000000  00000000  000003bc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000d10  00000000  00000000  00000464  2**0
+  5 .debug_info   00000d10  00000000  00000000  00000454  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000920  00000000  00000000  00001174  2**0
+  6 .debug_abbrev 00000920  00000000  00000000  00001164  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   00000631  00000000  00000000  00001a94  2**0
+  7 .debug_line   00000631  00000000  00000000  00001a84  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  000000f0  00000000  00000000  000020c8  2**2
+  8 .debug_frame  000000f0  00000000  00000000  000020b8  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000057b  00000000  00000000  000021b8  2**0
+  9 .debug_str    0000057b  00000000  00000000  000021a8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000418  00000000  00000000  00002733  2**0
+ 10 .debug_loc    00000418  00000000  00000000  00002723  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000068  00000000  00000000  00002b4b  2**0
+ 11 .debug_ranges 00000068  00000000  00000000  00002b3b  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -75,7 +75,7 @@ Disassembly of section .text:
   7e:	02 c0       	rjmp	.+4      	; 0x84 <__do_copy_data+0x10>
   80:	05 90       	lpm	r0, Z+
   82:	0d 92       	st	X+, r0
-  84:	ac 34       	cpi	r26, 0x4C	; 76
+  84:	ac 33       	cpi	r26, 0x3C	; 60
   86:	b1 07       	cpc	r27, r17
   88:	d9 f7       	brne	.-10     	; 0x80 <__do_copy_data+0xc>
   8a:	0e 94 f8 00 	call	0x1f0	; 0x1f0 <main>
@@ -386,7 +386,7 @@ int main(void)
  226:	80 e0       	ldi	r24, 0x00	; 0
  228:	0e 94 ad 00 	call	0x15a	; 0x15a <slaveSelector>
 				transmitADCvalues(0, "");
- 22c:	6a e2       	ldi	r22, 0x2A	; 42
+ 22c:	6a e3       	ldi	r22, 0x3A	; 58
  22e:	71 e0       	ldi	r23, 0x01	; 1
  230:	80 e0       	ldi	r24, 0x00	; 0
  232:	0e 94 ec 00 	call	0x1d8	; 0x1d8 <transmitADCvalues>
@@ -401,7 +401,7 @@ int main(void)
 				while(counter < endCounter)
 				{
 					transmitADCvalues(0, "");
- 242:	6a e2       	ldi	r22, 0x2A	; 42
+ 242:	6a e3       	ldi	r22, 0x3A	; 58
  244:	71 e0       	ldi	r23, 0x01	; 1
  246:	80 e0       	ldi	r24, 0x00	; 0
  248:	0e 94 ec 00 	call	0x1d8	; 0x1d8 <transmitADCvalues>
@@ -427,7 +427,7 @@ int main(void)
 				while(counter < endCounter)
 				{
 					transmitADCvalues(0, "");
- 25c:	6a e2       	ldi	r22, 0x2A	; 42
+ 25c:	6a e3       	ldi	r22, 0x3A	; 58
  25e:	71 e0       	ldi	r23, 0x01	; 1
  260:	80 e0       	ldi	r24, 0x00	; 0
  262:	0e 94 ec 00 	call	0x1d8	; 0x1d8 <transmitADCvalues>
@@ -453,7 +453,7 @@ int main(void)
 				while(counter < endCounter)
 				{
 					transmitADCvalues(0, "");
- 276:	6a e2       	ldi	r22, 0x2A	; 42
+ 276:	6a e3       	ldi	r22, 0x3A	; 58
  278:	71 e0       	ldi	r23, 0x01	; 1
  27a:	80 e0       	ldi	r24, 0x00	; 0
  27c:	0e 94 ec 00 	call	0x1d8	; 0x1d8 <transmitADCvalues>
@@ -474,7 +474,7 @@ int main(void)
 				slaveSelector(0);
  286:	80 e0       	ldi	r24, 0x00	; 0
  288:	0e 94 ad 00 	call	0x15a	; 0x15a <slaveSelector>
-				UART_putString("Sahil is Awesome :D");
+				UART_putString("10");
  28c:	88 e3       	ldi	r24, 0x38	; 56
  28e:	91 e0       	ldi	r25, 0x01	; 1
  290:	0e 94 72 00 	call	0xe4	; 0xe4 <UART_putString>

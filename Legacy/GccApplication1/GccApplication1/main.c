@@ -19,9 +19,9 @@
 
 void blinkLED() //blinks the led. Ports are hardcoded.
 {
-	toggleBit(PORTB, PB0);
+	toggleBit(PORTC, PC3);
 	_delay_ms(500);
-	toggleBit(PORTB, PB0);
+	toggleBit(PORTC, PC3);
 	_delay_ms(500);
 }
 
@@ -33,7 +33,7 @@ void blinkLED() //blinks the led. Ports are hardcoded.
 
 int main(void)
 {
-	DDRB |= 0b00000011;
+	DDRC |= 0b11111111;
 	blinkLED();
 
 	
